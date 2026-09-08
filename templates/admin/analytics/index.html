@@ -1,0 +1,403 @@
+{% extends "base.html" %} {% block title %} MeharLabs | Analytics {% endblock %}
+{% block content %}
+
+<section class="admin-dashboard analytics-page">
+  <div class="container">
+    <!-- =========================
+             HEADER
+        ========================== -->
+
+    <div class="admin-header">
+      <div>
+        <p class="eyebrow">WEBSITE ANALYTICS</p>
+
+        <h1>Page Views Analytics</h1>
+
+        <p>Monitor website traffic by month, year and page.</p>
+      </div>
+    </div>
+
+    <!-- =========================
+             SUMMARY CARDS
+        ========================== -->
+
+    <div class="analytics-cards">
+      <div class="analytics-card">
+        <span class="analytics-card-label"> Total Views </span>
+
+        <strong> {{ total_views }} </strong>
+      </div>
+
+      <div class="analytics-card">
+        <span class="analytics-card-label"> Today </span>
+
+        <strong> {{ today_views }} </strong>
+      </div>
+
+      <div class="analytics-card">
+        <span class="analytics-card-label"> This Month </span>
+
+        <strong> {{ month_views }} </strong>
+      </div>
+
+      <div class="analytics-card">
+        <span class="analytics-card-label"> This Year </span>
+
+        <strong> {{ year_views }} </strong>
+      </div>
+    </div>
+
+    <!-- =========================
+             MONTH ANALYTICS
+        ========================== -->
+
+    <section class="analytics-section">
+      <div class="analytics-section-header">
+        <div>
+          <p class="eyebrow">MONTHLY TRAFFIC</p>
+
+          <h2>Month Analytics</h2>
+        </div>
+      </div>
+
+      <form
+        method="GET"
+        action="{{ url_for('analytics.dashboard') }}"
+        class="analytics-filter"
+      >
+        <div class="filter-group">
+          <label for="month_year"> Year </label>
+
+          <select name="year" id="month_year">
+            {% for year in years %}
+
+            <option
+              value="{{ year }}"
+              {%
+              if
+              year=="selected_year"
+              %}
+              selected
+              {%
+              endif
+              %}
+            >
+              {{ year }}
+            </option>
+
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="month_select"> Month </label>
+
+          <select name="month" id="month_select">
+            {% for month in months %}
+
+            <option
+              value="{{ month.number }}"
+              {%
+              if
+              month.number=="selected_month"
+              %}
+              selected
+              {%
+              endif
+              %}
+            >
+              {{ month.name }}
+            </option>
+
+            {% endfor %}
+          </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">View Month</button>
+      </form>
+
+      <div class="analytics-result">
+        <span> {{ selected_month_name }} {{ selected_year }} </span>
+
+        <strong> {{ selected_month_views }} </strong>
+
+        <small> Total page views </small>
+      </div>
+    </section>
+
+    <!-- =========================
+             YEAR ANALYTICS
+        ========================== -->
+
+    <section class="analytics-section">
+      <div class="analytics-section-header">
+        <div>
+          <p class="eyebrow">YEARLY TRAFFIC</p>
+
+          <h2>Year Analytics</h2>
+        </div>
+      </div>
+
+      <form
+        method="GET"
+        action="{{ url_for('analytics.dashboard') }}"
+        class="analytics-filter"
+      >
+        <div class="filter-group">
+          <label for="year_select"> Year </label>
+
+          <select name="year" id="year_select">
+            {% for year in years %}
+
+            <option
+              value="{{ year }}"
+              {%
+              if
+              year=="selected_year"
+              %}
+              selected
+              {%
+              endif
+              %}
+            >
+              {{ year }}
+            </option>
+
+            {% endfor %}
+          </select>
+        </div>
+
+        <input type="hidden" name="month" value="{{ selected_month }}" />
+
+        <button type="submit" class="btn btn-primary">View Year</button>
+      </form>
+
+      <div class="analytics-result">
+        <span> {{ selected_year }} </span>
+
+        <strong> {{ selected_year_views }} </strong>
+
+        <small> Total page views </small>
+      </div>
+    </section>
+
+    <!-- =========================
+             PAGE ANALYTICS
+             ONLY ONCE
+        ========================== -->
+
+    <section class="analytics-section">
+      <div class="analytics-section-header">
+        <div>
+          <p class="eyebrow">PAGE BREAKDOWN</p>
+
+          <h2>Page Analytics</h2>
+
+          <p>View traffic for individual website pages.</p>
+        </div>
+      </div>
+
+      <!-- PAGE FILTER -->
+
+      <form
+        method="GET"
+        action="{{ url_for('analytics.dashboard') }}"
+        class="analytics-filter page-filter"
+        id="pageAnalyticsForm"
+      >
+        <!-- Period -->
+
+        <div class="filter-group">
+          <label for="period_select"> Period </label>
+
+          <select name="period" id="period_select">
+            <option
+              value="all"
+              {%
+              if
+              selected_period=="all"
+              %}
+              selected
+              {%
+              endif
+              %}
+            >
+              All Time
+            </option>
+
+            <option
+              value="month"
+              {%
+              if
+              selected_period=="month"
+              %}
+              selected
+              {%
+              endif
+              %}
+            >
+              Month
+            </option>
+
+            <option
+              value="year"
+              {%
+              if
+              selected_period=="year"
+              %}
+              selected
+              {%
+              endif
+              %}
+            >
+              Year
+            </option>
+          </select>
+        </div>
+
+        <!-- Year -->
+
+        <div class="filter-group" id="pageYearGroup">
+          <label for="page_year"> Year </label>
+
+          <select name="year" id="page_year">
+            {% for year in years %}
+
+            <option
+              value="{{ year }}"
+              {%
+              if
+              year=="selected_year"
+              %}
+              selected
+              {%
+              endif
+              %}
+            >
+              {{ year }}
+            </option>
+
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- Month -->
+
+        <div class="filter-group" id="pageMonthGroup">
+          <label for="page_month"> Month </label>
+
+          <select name="month" id="page_month">
+            {% for month in months %}
+
+            <option
+              value="{{ month.number }}"
+              {%
+              if
+              month.number=="selected_month"
+              %}
+              selected
+              {%
+              endif
+              %}
+            >
+              {{ month.name }}
+            </option>
+
+            {% endfor %}
+          </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">View Pages</button>
+      </form>
+
+      <!-- PAGE TABLE -->
+
+      <div class="analytics-table-wrapper">
+        <table class="analytics-table">
+          <thead>
+            <tr>
+              <th>Page</th>
+
+              <th>URL</th>
+
+              <th>Views</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {% if page_views %} {% for page in page_views %}
+
+            <tr>
+              <td>
+                <strong> {{ page[0] }} </strong>
+              </td>
+
+              <td>{{ page[1] }}</td>
+
+              <td>
+                <strong> {{ page[2] }} </strong>
+              </td>
+            </tr>
+
+            {% endfor %} {% else %}
+
+            <tr>
+              <td colspan="3" class="empty-state">
+                No page views found for this period.
+              </td>
+            </tr>
+
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</section>
+
+<!-- =========================
+     PAGE ANALYTICS JS
+========================== -->
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const periodSelect = document.getElementById("period_select");
+
+    const yearGroup = document.getElementById("pageYearGroup");
+
+    const monthGroup = document.getElementById("pageMonthGroup");
+
+    function updatePageFilters() {
+      const period = periodSelect.value;
+
+      /*
+       * ALL TIME
+       */
+
+      if (period === "all") {
+        yearGroup.style.display = "none";
+        monthGroup.style.display = "none";
+      } else if (period === "year") {
+
+      /*
+       * YEAR
+       */
+        yearGroup.style.display = "flex";
+        monthGroup.style.display = "none";
+      } else if (period === "month") {
+
+      /*
+       * MONTH
+       */
+        yearGroup.style.display = "flex";
+        monthGroup.style.display = "flex";
+      }
+    }
+
+    periodSelect.addEventListener("change", updatePageFilters);
+
+    updatePageFilters();
+  });
+</script>
+
+{% endblock %}
