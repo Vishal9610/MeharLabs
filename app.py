@@ -30,9 +30,9 @@ def create_app():
     mysql.init_app(app)
     mail.init_app(app)
 
-    # =========================
+    #  
     # REGISTER BLUEPRINTS
-    # =========================
+    #  
 
     app.register_blueprint(home_bp)
     app.register_blueprint(research_bp)
@@ -50,9 +50,9 @@ def create_app():
     app.register_blueprint(analytics_bp)
 
 
-    # =========================
+    #  
     # GLOBAL PAGE VIEW TRACKING
-    # =========================
+    #  
 
     @app.before_request
     def track_page_view():
