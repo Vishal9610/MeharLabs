@@ -1,0 +1,182 @@
+{% extends "base.html" %} {% block title %} {% if member %} MeharLabs | Edit
+Team Member {% else %} MeharLabs | Add Team Member {% endif %} {% endblock %} {%
+block content %}
+
+<section class="admin-dashboard">
+  <div class="container">
+    <div class="admin-header">
+      <div>
+        <p class="eyebrow">ADMIN PANEL</p>
+
+        <h1>
+          {% if member %} Edit Team Member {% else %} Add Team Member {% endif
+          %}
+        </h1>
+
+        <p>Manage MeharLabs team information.</p>
+      </div>
+
+      <a href="{{ url_for('team.team_list') }}" class="btn secondary">
+        ← Back
+      </a>
+    </div>
+
+    <div class="admin-card">
+      <form method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="name">Name</label>
+
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value="{% if member %}{{ member.name }}{% endif %}"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="designation">Designation</label>
+
+          <input
+            type="text"
+            id="designation"
+            name="designation"
+            value="{% if member %}{{ member.designation or '' }}{% endif %}"
+            placeholder="Research Scientist"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="bio">Bio</label>
+
+          <textarea id="bio" name="bio" rows="7">
+{% if member %}{{ member.bio or '' }}{% endif %}</textarea
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="skills">Skills</label>
+
+          <textarea
+            id="skills"
+            name="skills"
+            rows="4"
+            placeholder="AI, Machine Learning, Python..."
+          >
+{% if member %}{{ member.skills or '' }}{% endif %}</textarea
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value="{% if member %}{{ member.email or '' }}{% endif %}"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="linkedin">LinkedIn URL</label>
+
+          <input
+            type="url"
+            id="linkedin"
+            name="linkedin"
+            value="{% if member %}{{ member.linkedin or '' }}{% endif %}"
+            placeholder="https://linkedin.com/..."
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="github">GitHub URL</label>
+
+          <input
+            type="url"
+            id="github"
+            name="github"
+            value="{% if member %}{{ member.github or '' }}{% endif %}"
+            placeholder="https://github.com/..."
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="display_order">Display Order</label>
+
+          <input
+            type="number"
+            id="display_order"
+            name="display_order"
+            value="{% if member %}{{ member.display_order or 0 }}{% else %}0{% endif %}"
+            min="0"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="status">Status</label>
+
+          <select id="status" name="status">
+            {% if member and member.status == "Active" %}
+            <option value="Active" selected>Active</option>
+            {% else %}
+            <option value="Active">Active</option>
+            {% endif %} {% if member and member.status == "Inactive" %}
+            <option value="Inactive" selected>Inactive</option>
+            {% else %}
+            <option value="Inactive">Inactive</option>
+            {% endif %}
+          </select>
+        </div>
+
+        {% if member and member.photo %}
+
+        <div class="form-group">
+          <label>Current Photo</label>
+
+          <br />
+
+          <img
+            src="{{ url_for('static', filename='uploads/team/' ~ member.photo) }}"
+            alt="{{ member.name }}"
+            style="
+              width: 120px;
+              height: 120px;
+              object-fit: cover;
+              border-radius: 50%;
+            "
+          />
+        </div>
+
+        {% endif %}
+
+        <div class="form-group">
+          <label for="photo">
+            {% if member %} Replace Photo {% else %} Team Photo {% endif %}
+          </label>
+
+          <input
+            type="file"
+            id="photo"
+            name="photo"
+            accept=".jpg,.jpeg,.png,.webp"
+          />
+        </div>
+
+        <div class="form-actions">
+          <a href="{{ url_for('team.team_list') }}" class="btn secondary">
+            Cancel
+          </a>
+
+          <button type="submit" class="btn">
+            {% if member %} Update Member {% else %} Add Member {% endif %}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

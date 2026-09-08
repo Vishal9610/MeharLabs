@@ -1,0 +1,173 @@
+{% extends "base.html" %} {% block title %} {{ technology.title }} | MeharLabs
+{% endblock %} {% block content %}
+
+<!--  
+     PAGE HEADER
+  -->
+
+<section class="page-header">
+  <div class="container">
+    <p class="eyebrow">MEHARLABS TECHNOLOGY</p>
+
+    <h1>{{ technology.title }}</h1>
+
+    <p>{{ technology.short_description }}</p>
+  </div>
+</section>
+
+<!--  
+     TECHNOLOGY DETAIL
+  -->
+
+<section class="technology-detail">
+  <div class="container">
+    <div class="research-detail-grid">
+      <!--  
+       MAIN CONTENT
+    -->
+
+      <div class="research-main">
+        <!-- TECHNOLOGY IMAGE -->
+
+        {% if technology.image %}
+
+        <img
+          src="{{ url_for(
+          'static',
+          filename='uploads/technology/' ~ technology.image
+      ) }}"
+          alt="{{ technology.title }}"
+          class="technology-detail-image"
+        />
+
+        {% endif %}
+
+        <!-- ABOUT -->
+
+        <h2>About This Technology</h2>
+
+        {% if technology.description %}
+
+        <p>{{ technology.description }}</p>
+
+        {% else %}
+
+        <p>
+          Detailed information about this technology will be available soon.
+        </p>
+
+        {% endif %}
+
+        <!-- TECHNOLOGY STACK -->
+
+        {% if technology.technology %}
+
+        <h2>Technology Stack</h2>
+
+        <p>{{ technology.technology }}</p>
+
+        {% endif %}
+
+        <!-- APPLICATIONS -->
+
+        {% if technology.applications %}
+
+        <h2>Applications</h2>
+
+        <p>{{ technology.applications }}</p>
+
+        {% endif %}
+
+        <!-- RESEARCH & DEVELOPMENT -->
+
+        {% if technology.research_direction %}
+
+        <h2>Research & Development</h2>
+
+        <p>{{ technology.research_direction }}</p>
+
+        {% endif %}
+      </div>
+
+      <!--  
+       SIDEBAR
+    -->
+
+      <aside class="research-sidebar">
+        <div class="tech-card">
+          <p class="eyebrow">TECHNOLOGY DOMAIN</p>
+
+          <h3>{{ technology.title }}</h3>
+
+          <br />
+
+          <p>
+            <strong> Domain </strong>
+          </p>
+
+          <p>Deep-Tech Research</p>
+
+          <br />
+
+          {% if technology.technology %}
+
+          <p>
+            <strong> Technology </strong>
+          </p>
+
+          <p>{{ technology.technology }}</p>
+
+          {% endif %} {% if technology.featured %}
+
+          <br />
+
+          <p>
+            <strong> Featured </strong>
+          </p>
+
+          <p>Yes</p>
+
+          {% endif %}
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!--  
+     CTA
+  -->
+
+<section class="cta">
+  <div class="container">
+    <p class="eyebrow">MEHARLABS</p>
+
+    <h2>Explore Our Research</h2>
+
+    <p>
+      Discover research projects and experimental systems developed using
+      emerging technologies.
+    </p>
+
+    <a href="{{ url_for('research.research_list') }}" class="btn primary">
+      Explore Research →
+    </a>
+  </div>
+</section>
+
+<!--  
+     PAGE STYLING
+  -->
+
+<style>
+  .technology-detail-image {
+    width: 100%;
+    max-height: 450px;
+    object-fit: cover;
+    border-radius: 12px;
+    display: block;
+    margin-bottom: 35px;
+  }
+</style>
+
+{% endblock %}

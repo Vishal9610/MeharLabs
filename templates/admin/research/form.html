@@ -1,0 +1,146 @@
+{% extends "base.html" %} {% block title %} MeharLabs | Add Research {% endblock
+%} {% block content %}
+
+<section class="admin-dashboard">
+  <div class="container">
+    ```
+    <div class="admin-header">
+      <div>
+        <p class="eyebrow">RESEARCH MANAGEMENT</p>
+
+        <h1>Add Research</h1>
+
+        <p>Add a new research project to MeharLabs.</p>
+      </div>
+
+      <a href="{{ url_for('admin.research_list') }}" class="btn secondary">
+        ← Back
+      </a>
+    </div>
+
+    <div class="admin-form-card">
+      <form method="POST" enctype="multipart/form-data">
+        <!-- TITLE -->
+
+        <div class="form-group">
+          <label for="title"> Research Title </label>
+
+          <input
+            type="text"
+            id="title"
+            name="title"
+            placeholder="AI-Based Underwater Detection"
+            required
+          />
+        </div>
+
+        <!-- SHORT DESCRIPTION -->
+
+        <div class="form-group">
+          <label for="short_description"> Short Description </label>
+
+          <textarea
+            id="short_description"
+            name="short_description"
+            rows="4"
+            placeholder="Enter a short description"
+          ></textarea>
+        </div>
+
+        <!-- FULL DESCRIPTION -->
+
+        <div class="form-group">
+          <label for="description"> Full Description </label>
+
+          <textarea
+            id="description"
+            name="description"
+            rows="10"
+            placeholder="Enter complete research description"
+          ></textarea>
+        </div>
+
+        <!-- RESEARCH AREA -->
+
+        <div class="form-group">
+          <label for="research_area"> Research Area </label>
+
+          <select id="research_area" name="research_area">
+            <option value="Underwater AI">Underwater AI</option>
+
+            <option value="Medical Diagnostics">Medical Diagnostics</option>
+
+            <option value="Artificial Intelligence">
+              Artificial Intelligence
+            </option>
+
+            <option value="Machine Learning">Machine Learning</option>
+
+            <option value="Quantum Computing">Quantum Computing</option>
+
+            <option value="Robotics">Robotics</option>
+          </select>
+        </div>
+
+        <!-- TECHNOLOGY -->
+
+        <div class="form-group">
+          <label for="technology"> Technology </label>
+
+          <input
+            type="text"
+            id="technology"
+            name="technology"
+            placeholder="Python, PyTorch, OpenCV"
+          />
+        </div>
+
+        <!-- STATUS -->
+
+        <div class="form-group">
+          <label for="status"> Status </label>
+
+          <select id="status" name="status">
+            <option value="Research">Research</option>
+
+            <option value="Prototype">Prototype</option>
+
+            <option value="Development">Development</option>
+
+            <option value="Completed">Completed</option>
+          </select>
+        </div>
+
+        <!-- IMAGE -->
+
+        <div class="form-group">
+          <label for="image"> Research Image </label>
+
+          <input
+            type="file"
+            id="image"
+            name="image"
+            accept=".jpg,.jpeg,.png,.webp"
+          />
+
+          <small> JPG, JPEG, PNG or WEBP </small>
+        </div>
+
+        <!-- FEATURED -->
+
+        <div class="checkbox-group">
+          <input type="checkbox" id="featured" name="featured" value="1" />
+
+          <label for="featured"> Show on homepage </label>
+        </div>
+
+        <!-- BUTTON -->
+
+        <button type="submit" class="btn primary">Add Research</button>
+      </form>
+    </div>
+    ```
+  </div>
+</section>
+
+{% endblock %}

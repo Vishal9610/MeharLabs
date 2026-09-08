@@ -1,0 +1,108 @@
+{% extends "base.html" %} {% block title %} MeharLabs | Manage Publications {%
+endblock %} {% block content %}
+
+<section class="admin-dashboard">
+  <div class="container">
+    <div class="admin-header">
+      <div>
+        <p class="eyebrow">ADMIN PANEL</p>
+
+        <h1>Publications</h1>
+
+        <p>Manage MeharLabs research publications.</p>
+      </div>
+
+      <div>
+        <a href="{{ url_for('admin.dashboard') }}" class="btn secondary">
+          Back to Dashboard
+        </a>
+
+        <a href="{{ url_for('publications.add_publication') }}" class="btn">
+          + Add Publication
+        </a>
+      </div>
+    </div>
+
+    {% if publications %}
+
+    <div class="admin-card">
+      <div class="admin-table-wrapper">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Title</th>
+              <th>Authors</th>
+              <th>Journal</th>
+              <th>Date</th>
+              <th>Category</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {% for publication in publications %}
+
+            <tr>
+              <td>{{ publication.id }}</td>
+
+              <td>
+                <strong> {{ publication.title }} </strong>
+              </td>
+
+              <td>{{ publication.authors or "—" }}</td>
+
+              <td>{{ publication.journal or "—" }}</td>
+
+              <td>{{ publication.publication_date or "—" }}</td>
+
+              <td>{{ publication.category or "—" }}</td>
+
+              <td>
+                <a
+                  href="{{ url_for(
+                    'publications.edit_publication',
+                    id=publication.id
+                  ) }}"
+                  class="btn secondary"
+                >
+                  Edit
+                </a>
+
+                <form
+                  action="{{ url_for(
+                    'publications.delete_publication',
+                    id=publication.id
+                  ) }}"
+                  method="POST"
+                  style="display: inline"
+                  onsubmit="return confirm('Delete this publication?');"
+                >
+                  <button type="submit" class="btn danger">Delete</button>
+                </form>
+              </td>
+            </tr>
+
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    {% else %}
+
+    <div class="admin-card">
+      <h2>No Publications</h2>
+
+      <p>No publications have been added yet.</p>
+
+      <a href="{{ url_for('publications.add_publication') }}" class="btn">
+        Add First Publication
+      </a>
+    </div>
+
+    {% endif %}
+  </div>
+</section>
+
+{% endblock %}

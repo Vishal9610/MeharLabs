@@ -1,0 +1,117 @@
+{% extends "base.html" %} {% block title %} MeharLabs | Manage News {% endblock
+%} {% block content %}
+
+<section class="admin-dashboard">
+  <div class="container">
+    <div class="admin-header">
+      <div>
+        <p class="eyebrow">ADMIN PANEL</p>
+
+        <h1>News</h1>
+
+        <p>Manage MeharLabs news and announcements.</p>
+      </div>
+
+      <div>
+        <a href="{{ url_for('admin.dashboard') }}" class="btn secondary">
+          Back to Dashboard
+        </a>
+
+        <a href="{{ url_for('news.add_news') }}" class="btn"> + Add News </a>
+      </div>
+    </div>
+
+    {% if news %}
+
+    <div class="admin-card">
+      <div class="admin-table-wrapper">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th>Title</th>
+              <th>Author</th>
+              <th>Date</th>
+              <th>Status</th>
+              <th>Featured</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {% for item in news %}
+
+            <tr>
+              <td>
+                {% if item.image %}
+
+                <img
+                  src="{{ url_for(
+                    'static',
+                    filename='uploads/news/' ~ item.image
+                  ) }}"
+                  alt="{{ item.title }}"
+                  style="width: 80px; height: 55px; object-fit: cover"
+                />
+
+                {% else %} No Image {% endif %}
+              </td>
+
+              <td>
+                <strong> {{ item.title }} </strong>
+              </td>
+
+              <td>{{ item.author or "—" }}</td>
+
+              <td>{{ item.published_date or "—" }}</td>
+
+              <td>{{ item.status }}</td>
+
+              <td>{% if item.featured %} Yes {% else %} No {% endif %}</td>
+
+              <td>
+                <a
+                  href="{{ url_for(
+                    'news.edit_news',
+                    id=item.id
+                  ) }}"
+                  class="btn secondary"
+                >
+                  Edit
+                </a>
+
+                <form
+                  action="{{ url_for(
+                    'news.delete_news',
+                    id=item.id
+                  ) }}"
+                  method="POST"
+                  style="display: inline"
+                  onsubmit="return confirm('Delete this news item?');"
+                >
+                  <button type="submit" class="btn danger">Delete</button>
+                </form>
+              </td>
+            </tr>
+
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    {% else %}
+
+    <div class="admin-card">
+      <h2>No News</h2>
+
+      <p>No news or announcements have been added yet.</p>
+
+      <a href="{{ url_for('news.add_news') }}" class="btn"> Add First News </a>
+    </div>
+
+    {% endif %}
+  </div>
+</section>
+
+{% endblock %}

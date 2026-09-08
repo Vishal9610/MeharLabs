@@ -1,0 +1,123 @@
+{% extends "base.html" %} {% block title %} MeharLabs | Manage Team {% endblock
+%} {% block content %}
+
+<section class="admin-dashboard">
+  <div class="container">
+    <div class="admin-header">
+      <div>
+        <p class="eyebrow">ADMIN PANEL</p>
+
+        <h1>Team</h1>
+
+        <p>Manage MeharLabs team members.</p>
+      </div>
+
+      <div>
+        <a href="{{ url_for('admin.dashboard') }}" class="btn secondary">
+          Back to Dashboard
+        </a>
+
+        <a href="{{ url_for('team.add_member') }}" class="btn">
+          + Add Member
+        </a>
+      </div>
+    </div>
+
+    {% if members %}
+
+    <div class="admin-card">
+      <div class="admin-table-wrapper">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Photo</th>
+              <th>Name</th>
+              <th>Designation</th>
+              <th>Email</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {% for member in members %}
+
+            <tr>
+              <td>
+                {% if member.photo %}
+
+                <img
+                  src="{{ url_for(
+                    'static',
+                    filename='uploads/team/' ~ member.photo
+                  ) }}"
+                  alt="{{ member.name }}"
+                  style="
+                    width: 60px;
+                    height: 60px;
+                    object-fit: cover;
+                    border-radius: 50%;
+                  "
+                />
+
+                {% else %} No Photo {% endif %}
+              </td>
+
+              <td>
+                <strong> {{ member.name }} </strong>
+              </td>
+
+              <td>{{ member.designation or "—" }}</td>
+
+              <td>{{ member.email or "—" }}</td>
+
+              <td>{{ member.status }}</td>
+
+              <td>
+                <a
+                  href="{{ url_for(
+                    'team.edit_member',
+                    id=member.id
+                  ) }}"
+                  class="btn secondary"
+                >
+                  Edit
+                </a>
+
+                <form
+                  action="{{ url_for(
+                    'team.delete_member',
+                    id=member.id
+                  ) }}"
+                  method="POST"
+                  style="display: inline"
+                  onsubmit="return confirm('Delete this team member?');"
+                >
+                  <button type="submit" class="btn danger">Delete</button>
+                </form>
+              </td>
+            </tr>
+
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    {% else %}
+
+    <div class="admin-card">
+      <h2>No Team Members</h2>
+
+      <p>No team members have been added yet.</p>
+
+      <a href="{{ url_for('team.add_member') }}" class="btn">
+        Add First Member
+      </a>
+    </div>
+
+    {% endif %}
+  </div>
+</section>
+
+{% endblock %}

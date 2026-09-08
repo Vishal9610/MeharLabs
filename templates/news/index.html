@@ -1,0 +1,87 @@
+{% extends "base.html" %} {% block title %} MeharLabs | News {% endblock %} {%
+block content %}
+
+<section class="page-header">
+  <div class="container">
+    <p class="eyebrow">MEHARLABS NEWS</p>
+
+    <h1>News & Announcements</h1>
+
+    <p>Latest developments, announcements and updates from MeharLabs.</p>
+  </div>
+</section>
+
+<section class="news-section">
+  <div class="container">
+    {% if news %}
+
+    <div class="news-grid">
+      {% for item in news %}
+
+      <article class="news-card">
+        {% if item.image %}
+
+        <div class="news-image-wrapper">
+          <img
+            src="{{ url_for(
+              'static',
+              filename='uploads/news/' ~ item.image
+            ) }}"
+            alt="{{ item.title }}"
+            class="news-image"
+          />
+        </div>
+
+        {% endif %}
+
+        <div class="news-content">
+          {% if item.featured %}
+
+          <span class="news-badge"> Featured </span>
+
+          {% endif %}
+
+          <h2>{{ item.title }}</h2>
+
+          {% if item.published_date %}
+
+          <p class="news-date">{{ item.published_date }}</p>
+
+          {% endif %} {% if item.short_description %}
+
+          <p>{{ item.short_description }}</p>
+
+          {% endif %} {% if item.author %}
+
+          <p class="news-author">By {{ item.author }}</p>
+
+          {% endif %}
+
+          <a
+            href="{{ url_for(
+              'news_public.news_detail',
+              id=item.id
+            ) }}"
+            class="btn secondary"
+          >
+            Read More →
+          </a>
+        </div>
+      </article>
+
+      {% endfor %}
+    </div>
+
+    {% else %}
+
+    <div class="empty-state">
+      <h2>No News Available</h2>
+
+      <p>MeharLabs news and announcements will appear here.</p>
+    </div>
+
+    {% endif %}
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends "base.html" %} {% block title %} MeharLabs | Publications {% endblock
+%} {% block content %}
+
+<section class="page-header">
+  <div class="container">
+    <p class="eyebrow">MEHARLABS PUBLICATIONS</p>
+
+    <h1>Research Publications</h1>
+
+    <p>
+      Research papers, scientific publications and technical contributions from
+      MeharLabs.
+    </p>
+  </div>
+</section>
+
+<section class="publications-section">
+  <div class="container">
+    {% if publications %}
+
+    <div class="publications-list">
+      {% for publication in publications %}
+
+      <article class="publication-card">
+        {% if publication.image %}
+        <img
+          src="{{ url_for('static', filename='uploads/publications/' ~ publication.image) }}"
+          alt="{{ publication.title }}"
+          class="publication-image"
+        />
+        {% endif %}
+
+        <div class="publication-content">
+          {% if publication.category %}
+          <p class="eyebrow">{{ publication.category }}</p>
+          {% endif %}
+
+          <h2>{{ publication.title }}</h2>
+
+          {% if publication.authors %}
+          <p>
+            <strong>Authors:</strong>
+            {{ publication.authors }}
+          </p>
+          {% endif %} {% if publication.journal %}
+          <p>
+            <strong>Journal:</strong>
+            {{ publication.journal }}
+          </p>
+          {% endif %} {% if publication.publication_date %}
+          <p>
+            <strong>Date:</strong>
+            {{ publication.publication_date }}
+          </p>
+          {% endif %} {% if publication.abstract %}
+          <p>{{ publication.abstract }}</p>
+          {% endif %}
+
+          <div class="publication-links">
+            {% if publication.paper_url %}
+            <a
+              href="{{ publication.paper_url }}"
+              target="_blank"
+              rel="noopener"
+              class="btn"
+            >
+              Read Paper
+            </a>
+            {% endif %} {% if publication.doi %}
+            <a
+              href="https://doi.org/{{ publication.doi }}"
+              target="_blank"
+              rel="noopener"
+              class="btn secondary"
+            >
+              DOI
+            </a>
+            {% endif %}
+          </div>
+        </div>
+      </article>
+
+      {% endfor %}
+    </div>
+
+    {% else %}
+
+    <div class="empty-state">
+      <h2>No Publications Yet</h2>
+
+      <p>Research publications will be published here.</p>
+    </div>
+
+    {% endif %}
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,149 @@
+{% extends "base.html" %} {% block title %} Research Management | MeharLabs {%
+endblock %} {% block content %}
+
+<div class="admin-page">
+  <div class="page-header">
+    <div>
+      <p class="eyebrow">MEHARLABS RESEARCH</p>
+
+      <h1>Research</h1>
+
+      <p>Manage MeharLabs research projects.</p>
+    </div>
+
+    <div class="page-actions">
+      <a href="{{ url_for('admin.research_add') }}" class="btn btn-primary">
+        + Add Research
+      </a>
+
+      <a href="{{ url_for('admin.dashboard') }}" class="btn btn-secondary">
+        Dashboard
+      </a>
+    </div>
+  </div>
+
+  {% with messages = get_flashed_messages(with_categories=true) %} {% if
+  messages %} {% for category, message in messages %}
+
+  <div class="alert {{ category }}">{{ message }}</div>
+
+  {% endfor %} {% endif %} {% endwith %}
+
+  <div class="table-card">
+    <table>
+      <thead>
+        <tr>
+          <th>Image</th>
+          <th>Title</th>
+          <th>Research Area</th>
+          <th>Technology</th>
+          <th>Status</th>
+          <th>Featured</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for item in research %}
+
+        <tr>
+          <!-- IMAGE -->
+
+          <td>
+            {% if item.image %}
+
+            <img
+              src="{{ url_for(
+                  'static',
+                  filename='uploads/research/' ~ item.image
+                ) }}"
+              alt="{{ item.title }}"
+              class="research-image"
+            />
+
+            {% else %}
+
+            <span>No Image</span>
+
+            {% endif %}
+          </td>
+
+          <!-- TITLE -->
+
+          <td>
+            <strong> {{ item.title }} </strong>
+          </td>
+
+          <!-- RESEARCH AREA -->
+
+          <td>{{ item.research_area or "—" }}</td>
+
+          <!-- TECHNOLOGY -->
+
+          <td>{{ item.technology or "—" }}</td>
+
+          <!-- STATUS -->
+
+          <td>
+            <span class="status"> {{ item.status or "Research" }} </span>
+          </td>
+
+          <!-- FEATURED -->
+
+          <td>
+            {% if item.featured %}
+
+            <span class="featured-yes"> Yes </span>
+
+            {% else %}
+
+            <span> No </span>
+
+            {% endif %}
+          </td>
+
+          <!-- ACTIONS -->
+
+          <td>
+            <div class="action-buttons">
+              <a
+                href="{{ url_for(
+                  'admin.research_edit',
+                  id=item.id
+                ) }}"
+                class="btn btn-edit"
+              >
+                Edit
+              </a>
+
+              <form
+                method="POST"
+                action="{{ url_for(
+                  'admin.research_delete',
+                  id=item.id
+                ) }}"
+                onsubmit="
+                  return confirm(
+                    'Are you sure you want to delete this research?',
+                  );
+                "
+              >
+                <button type="submit" class="btn btn-delete">Delete</button>
+              </form>
+            </div>
+          </td>
+        </tr>
+
+        {% else %}
+
+        <tr>
+          <td colspan="7" style="text-align: center">No research found.</td>
+        </tr>
+
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}

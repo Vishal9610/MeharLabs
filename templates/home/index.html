@@ -1,0 +1,219 @@
+{% extends "base.html" %} {% block title %} MeharLabs | Intelligence Beyond
+Boundaries {% endblock %} {% block content %}
+
+<!-- HERO -->
+
+<section class="hero">
+  <div class="container hero-content">
+    <div class="hero-text">
+      <p class="eyebrow">DEEP-TECH RESEARCH & INNOVATION</p>
+
+      <h1>
+        Intelligence
+        <span>Beyond Boundaries.</span>
+      </h1>
+
+      <p class="hero-description">
+        MeharLabs explores the intersection of Artificial Intelligence, Medical
+        Diagnostics, Underwater Intelligence and Quantum Computing.
+      </p>
+
+      <div class="hero-buttons">
+        <a href="{{ url_for('research.research_list') }}" class="btn primary">
+          Explore Research
+        </a>
+
+        <a
+          href="{{ url_for('technology.technology_list') }}"
+          class="btn secondary"
+        >
+          Our Technologies
+        </a>
+      </div>
+    </div>
+
+    <!-- Technology Visual -->
+
+    <div class="technology-orbit">
+      <div class="orbit-center">ML</div>
+
+      <div class="orbit-item ai">AI</div>
+
+      <div class="orbit-item quantum">Q</div>
+
+      <div class="orbit-item medical">MED</div>
+
+      <div class="orbit-item underwater">UW</div>
+    </div>
+  </div>
+</section>
+
+<!-- TECHNOLOGIES -->
+
+<section class="technologies" id="technologies">
+  <div class="container">
+    <div class="section-heading">
+      <p class="eyebrow">OUR TECHNOLOGY</p>
+
+      <h2>Four Domains. One Intelligence.</h2>
+
+      <p>
+        MeharLabs combines emerging technologies to solve complex real-world
+        problems.
+      </p>
+    </div>
+
+    <div class="technology-grid">
+      {% for technology in technologies %}
+
+      <div class="tech-card">
+        <div class="card-number">{{ "%02d"|format(loop.index) }}</div>
+
+        <h3>{{ technology.title }}</h3>
+
+        <p>{{ technology.short_description }}</p>
+
+        <a
+          href="{{ url_for(
+          'technology.technology_detail',
+          slug=technology.slug
+      ) }}"
+        >
+          Explore {{ technology.title }} →
+        </a>
+      </div>
+
+      {% else %}
+
+      <div class="tech-card">
+        <div class="card-number">01</div>
+
+        <h3>Technologies Coming Soon</h3>
+
+        <p>Our technology domains will appear here.</p>
+      </div>
+
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCH -->
+
+<section class="research-section">
+  <div class="container research-layout">
+    <div>
+      <p class="eyebrow">RESEARCH</p>
+
+      <h2>From Research to Real-World Intelligence.</h2>
+    </div>
+
+    <div>
+      <p>
+        We investigate emerging technologies, develop experimental systems and
+        transform scientific ideas into practical prototypes.
+      </p>
+
+      <a href="{{ url_for('research.research_list') }}" class="text-link">
+        Explore Research →
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED PROJECTS -->
+<section class="projects-section">
+  <div class="container">
+    <div class="section-heading">
+      <p class="eyebrow">FEATURED PROJECTS</p>
+
+      <h2>From Ideas to Prototypes.</h2>
+
+      <p>Explore selected research projects developed by MeharLabs.</p>
+    </div>
+
+    {% if projects %}
+
+    <div class="technology-grid">
+      {% for project in projects %}
+
+      <article class="tech-card">
+        {% if project.image %}
+        <img
+          src="{{ url_for(
+            'static',
+            filename='uploads/projects/' ~ project.image
+          ) }}"
+          alt="{{ project.title }}"
+          class="technology-image"
+        />
+        {% endif %}
+
+        <div class="card-number">PROJECT {{ "%02d" | format(loop.index) }}</div>
+
+        <h3>{{ project.title }}</h3>
+
+        {% if project.short_description %}
+        <p>{{ project.short_description }}</p>
+        {% elif project.description %}
+        <p>{{ project.description }}</p>
+        {% endif %} {% if project.slug %}
+        <a
+          href="{{ url_for(
+            'projects.project_detail',
+            slug=project.slug
+          ) }}"
+          class="text-link"
+        >
+          Explore Project →
+        </a>
+        {% endif %}
+      </article>
+
+      {% endfor %}
+    </div>
+
+    <div style="margin-top: 40px">
+      <a href="{{ url_for('projects.project_list') }}" class="btn secondary">
+        View All Projects →
+      </a>
+    </div>
+
+    {% else %}
+
+    <div class="tech-card">
+      <div class="card-number">PROJECTS</div>
+
+      <h3>Projects Coming Soon</h3>
+
+      <p>
+        MeharLabs is currently developing research-driven prototypes across AI,
+        medical diagnostics, underwater intelligence and quantum computing.
+      </p>
+    </div>
+
+    {% endif %}
+  </div>
+</section>
+
+<!--  
+COLLABORATE
+  -->
+
+<section class="cta">
+  <div class="container">
+    <p class="eyebrow">COLLABORATE</p>
+
+    <h2>Build the Future With MeharLabs.</h2>
+
+    <p>
+      Research collaboration, technology partnerships, AI/ML projects and
+      emerging technology research.
+    </p>
+
+    <a href="{{ url_for('contact.contact') }}" class="btn primary">
+      Start a Conversation →
+    </a>
+  </div>
+</section>
+{% endblock %}

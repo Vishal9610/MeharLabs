@@ -1,0 +1,95 @@
+html {% extends "base.html" %} {% block title %} MeharLabs | Admin Dashboard {%
+endblock %} {% block content %}
+
+<section class="admin-dashboard">
+  <div class="container">
+    <div class="admin-header">
+      <div>
+        <p class="eyebrow">ADMIN PANEL</p>
+
+        <h1>Dashboard</h1>
+
+        <p>Manage MeharLabs content and research.</p>
+      </div>
+
+      <a href="{{ url_for('admin.logout') }}" class="btn secondary"> Logout </a>
+    </div>
+
+    <div class="admin-grid">
+      <!-- PROJECTS -->
+
+      <a href="{{ url_for('admin.project_list') }}" class="admin-card">
+        <span class="admin-number"> 01 </span>
+
+        <h2>Projects</h2>
+
+        <p>Add, edit and manage projects.</p>
+      </a>
+
+      <!-- RESEARCH -->
+
+      <a href="{{ url_for('admin.research_list') }}" class="admin-card">
+        <span class="admin-number"> 02 </span>
+
+        <h2>Research</h2>
+
+        <p>Manage research publications.</p>
+      </a>
+
+      <!-- PUBLICATIONS -->
+
+      <a
+        href="{{ url_for('publications.publication_list') }}"
+        class="admin-card"
+      >
+        <span class="admin-number"> 03 </span>
+
+        <h2>Publications</h2>
+
+        <p>Manage research papers.</p>
+      </a>
+
+      <!-- TEAM -->
+
+      <a href="{{ url_for('team.team_list') }}" class="admin-card">
+        <span class="admin-number"> 04 </span>
+
+        <h2>Team</h2>
+
+        <p>Manage MeharLabs team members.</p>
+      </a>
+
+      <!-- NEWS -->
+
+      <a href="{{ url_for('news.news_list') }}" class="admin-card">
+        <span class="admin-number"> 05 </span>
+
+        <h2>News</h2>
+
+        <p>Manage news and announcements.</p>
+      </a>
+
+      <!-- MESSAGES -->
+
+      <a href="{{ url_for('admin.messages') }}" class="admin-card">
+        <span class="admin-number"> 06 </span>
+
+        <h2>Messages</h2>
+
+        <p>View contact messages.</p>
+      </a>
+
+      <!-- ABOUT -->
+
+      <a href="{{ url_for('admin.about_list') }}" class="admin-card">
+        <span class="admin-number"> 07 </span>
+
+        <h2>About</h2>
+
+        <p>Manage MeharLabs About information.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

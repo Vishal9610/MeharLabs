@@ -1,0 +1,154 @@
+{% extends "base.html" %} {% block title %} {% if item %} MeharLabs | Edit News
+{% else %} MeharLabs | Add News {% endif %} {% endblock %} {% block content %}
+
+<section class="admin-dashboard">
+  <div class="container">
+    <div class="admin-header">
+      <div>
+        <p class="eyebrow">ADMIN PANEL</p>
+
+        <h1>{% if item %} Edit News {% else %} Add News {% endif %}</h1>
+
+        <p>Manage MeharLabs news and announcements.</p>
+      </div>
+
+      <a href="{{ url_for('news.news_list') }}" class="btn secondary">
+        ← Back
+      </a>
+    </div>
+
+    <div class="admin-card">
+      <form method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="title">Title</label>
+
+          <input
+            type="text"
+            id="title"
+            name="title"
+            value="{% if item %}{{ item.title }}{% endif %}"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="short_description">Short Description</label>
+
+          <textarea id="short_description" name="short_description" rows="4">
+{% if item %}{{ item.short_description or '' }}{% endif %}</textarea
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="content">Full Content</label>
+
+          <textarea id="content" name="content" rows="10">
+{% if item %}{{ item.content or '' }}{% endif %}</textarea
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="author">Author</label>
+
+          <input
+            type="text"
+            id="author"
+            name="author"
+            value="{% if item %}{{ item.author or '' }}{% endif %}"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="published_date">Published Date</label>
+
+          <input
+            type="date"
+            id="published_date"
+            name="published_date"
+            value="{% if item and item.published_date %}{{ item.published_date }}{% endif %}"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="status">Status</label>
+
+          <select id="status" name="status">
+            {% if item and item.status == "Draft" %}
+            <option value="Draft" selected>Draft</option>
+            {% else %}
+            <option value="Draft">Draft</option>
+            {% endif %} {% if item and item.status == "Published" %}
+            <option value="Published" selected>Published</option>
+            {% else %}
+            <option value="Published">Published</option>
+            {% endif %}
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>
+            <input
+              type="checkbox"
+              name="featured"
+              {%
+              if
+              item
+              and
+              item.featured
+              %}
+              checked
+              {%
+              endif
+              %}
+            />
+
+            Featured News
+          </label>
+        </div>
+
+        {% if item and item.image %}
+
+        <div class="form-group">
+          <label>Current Image</label>
+
+          <br />
+
+          <img
+            src="{{ url_for('static', filename='uploads/news/' ~ item.image) }}"
+            alt="{{ item.title }}"
+            style="max-width: 220px"
+          />
+        </div>
+
+        {% endif %}
+
+        <div class="form-group">
+          <label for="image">
+            {% if item %} Replace Image {% else %} News Image {% endif %}
+          </label>
+
+          <input
+            type="file"
+            id="image"
+            name="image"
+            accept=".jpg,.jpeg,.png,.webp"
+          />
+
+          <small> Allowed formats: JPG, JPEG, PNG, WEBP </small>
+        </div>
+
+        <div class="form-actions">
+          <a href="{{ url_for('news.news_list') }}" class="btn secondary">
+            Cancel
+          </a>
+
+          <button type="submit" class="btn">
+            {% if item %} Update News {% else %} Add News {% endif %}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

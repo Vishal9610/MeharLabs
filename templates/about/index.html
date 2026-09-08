@@ -1,0 +1,142 @@
+{% extends "base.html" %} {% block title %} MeharLabs | About {% endblock %} {%
+block content %}
+
+<!-- =====================================================
+     ABOUT HERO
+===================================================== -->
+
+<section class="about-hero">
+  <div class="container">
+    <p class="eyebrow">{{ about.hero_eyebrow }}</p>
+
+    <h1>{{ about.hero_title }}</h1>
+
+    <p class="about-hero-description">{{ about.hero_description }}</p>
+  </div>
+</section>
+
+<!-- =====================================================
+     WHO WE ARE
+===================================================== -->
+
+<section class="about-who">
+  <div class="container">
+    <div class="about-who-grid">
+      <div class="about-who-content">
+        <p class="eyebrow">{{ about.who_eyebrow }}</p>
+
+        <h2>{{ about.who_title }}</h2>
+
+        <p>{{ about.who_description }}</p>
+      </div>
+
+      <div class="about-brand-box">
+        <span> MEHARLABS </span>
+      </div>
+    </div>
+
+    <!-- =================================================
+         MISSION / VISION
+    ================================================== -->
+
+    <div class="about-mission-grid">
+      <div class="about-info-card">
+        <p class="eyebrow">{{ about.mission_eyebrow }}</p>
+
+        <h3>{{ about.mission_title }}</h3>
+
+        <p>{{ about.mission_description }}</p>
+      </div>
+
+      <div class="about-info-card">
+        <p class="eyebrow">{{ about.vision_eyebrow }}</p>
+
+        <h3>{{ about.vision_title }}</h3>
+
+        <p>{{ about.vision_description }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     TECHNOLOGY & RESEARCH AREAS
+===================================================== -->
+
+<section class="about-focus">
+  <div class="container">
+    <div class="about-focus-heading">
+      <p class="eyebrow">{{ about.focus_eyebrow }}</p>
+
+      <h2>{{ about.focus_title }}</h2>
+
+      <p>{{ about.focus_description }}</p>
+    </div>
+
+    <div class="about-area-grid">
+      <!-- AREA 1 -->
+
+      <div class="about-area-card">
+        <span class="about-area-number"> 01 </span>
+
+        <h3>{{ about.area1_title }}</h3>
+
+        <p>{{ about.area1_description }}</p>
+      </div>
+
+      <!-- AREA 2 -->
+
+      <div class="about-area-card">
+        <span class="about-area-number"> 02 </span>
+
+        <h3>{{ about.area2_title }}</h3>
+
+        <p>{{ about.area2_description }}</p>
+      </div>
+
+      <!-- AREA 3 -->
+
+      <div class="about-area-card">
+        <span class="about-area-number"> 03 </span>
+
+        <h3>{{ about.area3_title }}</h3>
+
+        <p>{{ about.area3_description }}</p>
+      </div>
+
+      <!-- AREA 4 -->
+
+      <div class="about-area-card">
+        <span class="about-area-number"> 04 </span>
+
+        <h3>{{ about.area4_title }}</h3>
+
+        <p>{{ about.area4_description }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     COLLABORATION CTA
+===================================================== -->
+
+<section class="about-cta">
+  <div class="container">
+    <div class="about-cta-circle"></div>
+
+    <div class="about-cta-content">
+      <p class="eyebrow">{{ about.cta_eyebrow }}</p>
+
+      <h2>{{ about.cta_title }}</h2>
+
+      <p>{{ about.cta_description }}</p>
+
+      <a href="{{ url_for('contact.contact') }}" class="btn primary">
+        {{ about.cta_button_text }}
+      </a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "base.html" %} {% block title %} {{ item.title }} | MeharLabs {%
+endblock %} {% block content %}
+
+<section class="page-header">
+  <div class="container">
+    <p class="eyebrow">MEHARLABS NEWS</p>
+
+    <h1>{{ item.title }}</h1>
+
+    <div class="news-meta">
+      {% if item.author %}
+      <span> By {{ item.author }} </span>
+      {% endif %} {% if item.published_date %}
+      <span> {{ item.published_date }} </span>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<section class="news-detail-section">
+  <div class="container">
+    <article class="news-detail">
+      {% if item.image %}
+
+      <div class="news-detail-image">
+        <img
+          src="{{ url_for(
+            'static',
+            filename='uploads/news/' ~ item.image
+          ) }}"
+          alt="{{ item.title }}"
+        />
+      </div>
+
+      {% endif %} {% if item.short_description %}
+
+      <div class="news-introduction">
+        <p>{{ item.short_description }}</p>
+      </div>
+
+      {% endif %}
+
+      <div class="news-body">{{ item.content | safe }}</div>
+
+      <div class="news-back">
+        <a href="{{ url_for('news_public.news_list') }}" class="btn secondary">
+          ← Back to News
+        </a>
+      </div>
+    </article>
+  </div>
+</section>
+
+{% endblock %}

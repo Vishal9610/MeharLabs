@@ -1,0 +1,97 @@
+{% extends "base.html" %} {% block title %} MeharLabs | Team {% endblock %} {%
+block content %}
+
+<section class="page-header">
+  <div class="container">
+    <p class="eyebrow">MEHARLABS TEAM</p>
+
+    <h1>Our Team</h1>
+
+    <p>
+      Researchers, engineers and innovators building intelligent technologies
+      for real-world challenges.
+    </p>
+  </div>
+</section>
+
+<section class="team-section">
+  <div class="container">
+    {% if members %}
+
+    <div class="team-grid">
+      {% for member in members %}
+
+      <article class="team-card">
+        {% if member.photo %}
+        <div class="image-container">
+          <img
+            src="{{ url_for('static', filename='uploads/team/' ~ member.photo) }}"
+            alt="{{ member.name }}"
+            class="team-photo"
+          />
+        </div>
+
+        {% else %}
+
+        <div class="team-photo team-photo-placeholder">
+          {{ member.name[0] }}
+        </div>
+
+        {% endif %}
+
+        <div class="team-info">
+          <h2>{{ member.name }}</h2>
+
+          {% if member.designation %}
+          <p class="team-designation">{{ member.designation }}</p>
+          {% endif %} {% if member.bio %}
+          <p>{{ member.bio }}</p>
+          {% endif %}
+
+          <div class="team-links">
+            {% if member.linkedin %}
+            <a href="{{ member.linkedin }}" target="_blank" rel="noopener">
+              LinkedIn
+            </a>
+            {% endif %} {% if member.github %}
+            <a href="{{ member.github }}" target="_blank" rel="noopener">
+              GitHub
+            </a>
+            {% endif %} {% if member.email %}
+            <a href="mailto:{{ member.email }}"> Email </a>
+            {% endif %}
+          </div>
+        </div>
+      </article>
+
+      {% endfor %}
+    </div>
+
+    {% else %}
+
+    <div class="empty-state">
+      <h2>Our Team</h2>
+      <p>Team information will be available soon.</p>
+    </div>
+
+    {% endif %}
+  </div>
+</section>
+
+<style>
+  .image-container {
+    width: 100%;
+    margin-bottom: 30px;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .image-container img {
+    width: 45%;
+    max-height: 450px;
+    object-fit: cover;
+    display: block;
+  }
+</style>
+
+{% endblock %}

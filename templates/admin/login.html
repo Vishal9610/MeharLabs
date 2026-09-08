@@ -1,0 +1,43 @@
+ {% block content %}
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/admin.css') }}"
+>
+<section class="admin-login">
+  <div class="admin-login-box">
+    <p class="eyebrow">MEHARLABS ADMIN</p>
+
+    <h1>Admin Login</h1>
+
+    <p>Sign in to manage MeharLabs content.</p>
+
+    {% with messages = get_flashed_messages( with_categories=true ) %} {% if
+    messages %} {% for category, message in messages %}
+
+    <div class="flash-message">{{ message }}</div>
+
+    {% endfor %} {% endif %} {% endwith %}
+
+    <form method="POST" action="{{ url_for('admin.login') }}">
+      <div class="form-group">
+        <label> Username </label>
+
+        <input type="text" name="username" required />
+      </div>
+
+      <div class="form-group">
+        <label> Password </label>
+
+        <input type="password" name="password" required />
+      </div>
+
+      <button type="submit" class="btn primary">Login</button>
+
+      <p style="margin-top: 20px">
+        <a href="{{ url_for('admin.login_otp') }}"> Login with Email OTP </a>
+      </p>
+    </form>
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,114 @@
+{% extends "base.html" %} {% block title %} MeharLabs | Research {% endblock %}
+{% block content %}
+
+<section class="page-header">
+  <div class="container">
+    <p class="eyebrow">MEHARLABS RESEARCH</p>
+
+    <h1>Research & Innovation</h1>
+
+    <p>
+      Exploring intelligent technologies across artificial intelligence, medical
+      diagnostics, underwater systems and quantum computing.
+    </p>
+  </div>
+</section>
+
+<section class="research-list">
+  <div class="container">
+    <div class="technology-grid">
+      {% for item in research_list %}
+
+      <article class="tech-card">
+        <div class="card-number">{{ "%02d"|format(loop.index) }}</div>
+
+        <!-- RESEARCH IMAGE -->
+
+        {% if item.image %}
+
+        <img
+          src="{{ url_for('static', filename='uploads/research/' ~ item.image) }}"
+          alt="{{ item.title }}"
+          class="research-image"
+        />
+
+        {% endif %}
+
+        <!-- TITLE -->
+
+        <h2>{{ item.title }}</h2>
+
+        <!-- SHORT DESCRIPTION -->
+
+        <p>{{ item.short_description }}</p>
+
+        <!-- RESEARCH AREA -->
+
+        <p>
+          <strong> Research Area: </strong>
+
+          {{ item.research_area }}
+        </p>
+
+        <!-- TECHNOLOGY -->
+
+        <p>
+          <strong> Technology: </strong>
+
+          {{ item.technology }}
+        </p>
+
+        <!-- STATUS -->
+
+        <p>
+          <strong> Status: </strong>
+
+          {{ item.status }}
+        </p>
+
+        <!-- DETAIL LINK -->
+
+        <a
+          href="{{ url_for('research.research_detail', slug=item.slug) }}"
+          class="text-link"
+        >
+          Read Research →
+        </a>
+      </article>
+
+      {% else %}
+
+      <div class="tech-card">
+        <h2>No Research Found</h2>
+
+        <p>
+          Research projects will appear here when they are added to MeharLabs.
+        </p>
+      </div>
+
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<style>
+  .research-image {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .research-detail-image {
+    width: 100%;
+    max-height: 450px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    display: block;
+  }
+</style>
+
+{% endblock %}

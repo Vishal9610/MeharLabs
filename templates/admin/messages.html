@@ -1,0 +1,69 @@
+html {% extends "base.html" %} {% block title %} MeharLabs | Contact Messages {%
+endblock %} {% block content %}
+
+<section class="admin-dashboard">
+  <div class="container">
+    <div class="admin-header">
+      <div>
+        <p class="eyebrow">ADMIN PANEL</p>
+
+        <h1>Messages</h1>
+
+        <p>View messages received through the contact form.</p>
+      </div>
+
+      <a href="{{ url_for('admin.dashboard') }}" class="btn secondary">
+        Back to Dashboard
+      </a>
+    </div>
+
+    {% if messages %}
+
+    <div class="admin-table-wrapper">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Subject</th>
+            <th>Message</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for msg in messages %}
+
+          <tr>
+            <td>{{ msg.id }}</td>
+
+            <td>{{ msg.name }}</td>
+
+            <td>{{ msg.email }}</td>
+
+            <td>{{ msg.subject or "-" }}</td>
+
+            <td>{{ msg.message }}</td>
+
+            <td>{{ msg.created_at }}</td>
+          </tr>
+
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    {% else %}
+
+    <div class="admin-card">
+      <h2>No Messages</h2>
+
+      <p>No contact messages have been received yet.</p>
+    </div>
+
+    {% endif %}
+  </div>
+</section>
+
+{% endblock %}

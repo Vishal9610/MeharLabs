@@ -1,0 +1,475 @@
+{% extends "base.html" %} {% block title %} MeharLabs | Manage About {% endblock
+%} {% block content %}
+
+<section class="admin-dashboard">
+  <div class="container">
+    <!-- =========================
+         ADMIN HEADER
+    ========================== -->
+
+    <div class="admin-header">
+      <div>
+        <p class="eyebrow">ADMIN PANEL</p>
+
+        <h1>About MeharLabs</h1>
+
+        <p>Manage all content displayed on the public About page.</p>
+      </div>
+
+      <div class="admin-actions">
+        <a href="{{ url_for('admin.dashboard') }}" class="btn secondary">
+          ← Dashboard
+        </a>
+
+        <a
+          href="{{ url_for('about.about_page') }}"
+          class="btn secondary"
+          target="_blank"
+        >
+          View Public Page
+        </a>
+      </div>
+    </div>
+
+    <!-- =========================
+         FLASH MESSAGES
+    ========================== -->
+
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %} {% for category, message in messages %}
+
+    <div class="flash-message {{ category }}">{{ message }}</div>
+
+    {% endfor %} {% endif %} {% endwith %}
+
+    <!-- =========================
+         ABOUT FORM
+    ========================== -->
+
+    <div class="admin-form-card">
+      <form method="POST" action="{{ url_for('admin.about_list') }}">
+        <!-- =========================
+             HERO SECTION
+        ========================== -->
+
+        <div class="form-section">
+          <div class="form-section-header">
+            <p class="eyebrow">SECTION 01</p>
+
+            <h2>Hero Section</h2>
+
+            <p>Main heading displayed at the top of the About page.</p>
+          </div>
+
+          <div class="form-group">
+            <label for="hero_eyebrow"> Eyebrow </label>
+
+            <input
+              type="text"
+              id="hero_eyebrow"
+              name="hero_eyebrow"
+              value="{{ about.hero_eyebrow or '' }}"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="hero_title"> Title </label>
+
+            <input
+              type="text"
+              id="hero_title"
+              name="hero_title"
+              value="{{ about.hero_title or '' }}"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="hero_description"> Description </label>
+
+            <textarea id="hero_description" name="hero_description" rows="4">
+{{ about.hero_description or '' }}</textarea
+            >
+          </div>
+        </div>
+
+        <!-- =========================
+             WHO WE ARE
+        ========================== -->
+
+        <div class="form-section">
+          <div class="form-section-header">
+            <p class="eyebrow">SECTION 02</p>
+
+            <h2>Who We Are</h2>
+          </div>
+
+          <div class="form-group">
+            <label for="who_eyebrow"> Eyebrow </label>
+
+            <input
+              type="text"
+              id="who_eyebrow"
+              name="who_eyebrow"
+              value="{{ about.who_eyebrow or '' }}"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="who_title"> Title </label>
+
+            <input
+              type="text"
+              id="who_title"
+              name="who_title"
+              value="{{ about.who_title or '' }}"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="who_description"> Description </label>
+
+            <textarea id="who_description" name="who_description" rows="6">
+{{ about.who_description or '' }}</textarea
+            >
+          </div>
+        </div>
+
+        <!-- =========================
+             MISSION
+        ========================== -->
+
+        <div class="form-section">
+          <div class="form-section-header">
+            <p class="eyebrow">SECTION 03</p>
+
+            <h2>Mission</h2>
+          </div>
+
+          <div class="form-group">
+            <label for="mission_eyebrow"> Eyebrow </label>
+
+            <input
+              type="text"
+              id="mission_eyebrow"
+              name="mission_eyebrow"
+              value="{{ about.mission_eyebrow or '' }}"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="mission_title"> Title </label>
+
+            <input
+              type="text"
+              id="mission_title"
+              name="mission_title"
+              value="{{ about.mission_title or '' }}"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="mission_description"> Description </label>
+
+            <textarea
+              id="mission_description"
+              name="mission_description"
+              rows="5"
+            >
+{{ about.mission_description or '' }}</textarea
+            >
+          </div>
+        </div>
+
+        <!-- =========================
+             VISION
+        ========================== -->
+
+        <div class="form-section">
+          <div class="form-section-header">
+            <p class="eyebrow">SECTION 04</p>
+
+            <h2>Vision</h2>
+          </div>
+
+          <div class="form-group">
+            <label for="vision_eyebrow"> Eyebrow </label>
+
+            <input
+              type="text"
+              id="vision_eyebrow"
+              name="vision_eyebrow"
+              value="{{ about.vision_eyebrow or '' }}"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="vision_title"> Title </label>
+
+            <input
+              type="text"
+              id="vision_title"
+              name="vision_title"
+              value="{{ about.vision_title or '' }}"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="vision_description"> Description </label>
+
+            <textarea
+              id="vision_description"
+              name="vision_description"
+              rows="5"
+            >
+{{ about.vision_description or '' }}</textarea
+            >
+          </div>
+        </div>
+
+        <!-- =========================
+             TECHNOLOGY & RESEARCH
+        ========================== -->
+
+        <div class="form-section">
+          <div class="form-section-header">
+            <p class="eyebrow">SECTION 05</p>
+
+            <h2>Technology & Research Areas</h2>
+
+            <p>Manage the four technology cards displayed on the About page.</p>
+          </div>
+
+          <div class="about-area-grid">
+            <!-- AREA 1 -->
+
+            <div class="about-area-card">
+              <h3>Area 01</h3>
+
+              <div class="form-group">
+                <label for="area1_title"> Title </label>
+
+                <input
+                  type="text"
+                  id="area1_title"
+                  name="area1_title"
+                  value="{{ about.area1_title or '' }}"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="area1_description"> Description </label>
+
+                <textarea
+                  id="area1_description"
+                  name="area1_description"
+                  rows="5"
+                >
+{{ about.area1_description or '' }}</textarea
+                >
+              </div>
+            </div>
+
+            <!-- AREA 2 -->
+
+            <div class="about-area-card">
+              <h3>Area 02</h3>
+
+              <div class="form-group">
+                <label for="area2_title"> Title </label>
+
+                <input
+                  type="text"
+                  id="area2_title"
+                  name="area2_title"
+                  value="{{ about.area2_title or '' }}"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="area2_description"> Description </label>
+
+                <textarea
+                  id="area2_description"
+                  name="area2_description"
+                  rows="5"
+                >
+{{ about.area2_description or '' }}</textarea
+                >
+              </div>
+            </div>
+
+            <!-- AREA 3 -->
+
+            <div class="about-area-card">
+              <h3>Area 03</h3>
+
+              <div class="form-group">
+                <label for="area3_title"> Title </label>
+
+                <input
+                  type="text"
+                  id="area3_title"
+                  name="area3_title"
+                  value="{{ about.area3_title or '' }}"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="area3_description"> Description </label>
+
+                <textarea
+                  id="area3_description"
+                  name="area3_description"
+                  rows="5"
+                >
+{{ about.area3_description or '' }}</textarea
+                >
+              </div>
+            </div>
+
+            <!-- AREA 4 -->
+
+            <div class="about-area-card">
+              <h3>Area 04</h3>
+
+              <div class="form-group">
+                <label for="area4_title"> Title </label>
+
+                <input
+                  type="text"
+                  id="area4_title"
+                  name="area4_title"
+                  value="{{ about.area4_title or '' }}"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="area4_description"> Description </label>
+
+                <textarea
+                  id="area4_description"
+                  name="area4_description"
+                  rows="5"
+                >
+{{ about.area4_description or '' }}</textarea
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- =========================
+             FOCUS SECTION
+        ========================== -->
+
+        <div class="form-section">
+          <div class="form-section-header">
+            <p class="eyebrow">SECTION 06</p>
+
+            <h2>Our Focus</h2>
+          </div>
+
+          <div class="form-group">
+            <label for="focus_eyebrow"> Eyebrow </label>
+
+            <input
+              type="text"
+              id="focus_eyebrow"
+              name="focus_eyebrow"
+              value="{{ about.focus_eyebrow or '' }}"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="focus_title"> Title </label>
+
+            <input
+              type="text"
+              id="focus_title"
+              name="focus_title"
+              value="{{ about.focus_title or '' }}"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="focus_description"> Description </label>
+
+            <textarea id="focus_description" name="focus_description" rows="5">
+{{ about.focus_description or '' }}</textarea
+            >
+          </div>
+        </div>
+
+        <!-- =========================
+             CTA
+        ========================== -->
+
+        <div class="form-section">
+          <div class="form-section-header">
+            <p class="eyebrow">SECTION 07</p>
+
+            <h2>Collaboration CTA</h2>
+
+            <p>Content displayed at the bottom of the About page.</p>
+          </div>
+
+          <div class="form-group">
+            <label for="cta_eyebrow"> Eyebrow </label>
+
+            <input
+              type="text"
+              id="cta_eyebrow"
+              name="cta_eyebrow"
+              value="{{ about.cta_eyebrow or '' }}"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="cta_title"> Title </label>
+
+            <input
+              type="text"
+              id="cta_title"
+              name="cta_title"
+              value="{{ about.cta_title or '' }}"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="cta_description"> Description </label>
+
+            <textarea id="cta_description" name="cta_description" rows="5">
+{{ about.cta_description or '' }}</textarea
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="cta_button_text"> Button Text </label>
+
+            <input
+              type="text"
+              id="cta_button_text"
+              name="cta_button_text"
+              value="{{ about.cta_button_text or '' }}"
+            />
+          </div>
+        </div>
+
+        <!-- =========================
+             FORM ACTIONS
+        ========================== -->
+
+        <div class="form-actions">
+          <a href="{{ url_for('admin.dashboard') }}" class="btn secondary">
+            Cancel
+          </a>
+
+          <button type="submit" class="btn">Save About Page</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

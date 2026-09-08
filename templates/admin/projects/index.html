@@ -1,0 +1,311 @@
+{% extends "base.html" %} {% block title %} MeharLabs | Manage Projects {%
+endblock %} {% block content %}
+
+<div class="admin-container">
+  <!-- HEADER -->
+
+  <div class="page-header">
+    <div>
+      <p class="eyebrow">PROJECT MANAGEMENT</p>
+
+      <h1>Projects</h1>
+
+      <p>Manage MeharLabs projects and prototypes.</p>
+    </div>
+
+    <div class="header-actions">
+      <a href="{{ url_for('admin.add_project') }}" class="btn btn-primary">
+        + Add Project
+      </a>
+
+      <a href="{{ url_for('admin.dashboard') }}" class="btn btn-secondary">
+        Dashboard
+      </a>
+    </div>
+  </div>
+
+  <!-- FLASH MESSAGES -->
+
+  {% with messages = get_flashed_messages(with_categories=true) %} {% if
+  messages %} {% for category, message in messages %}
+
+  <div class="alert {{ category }}">{{ message }}</div>
+
+  {% endfor %} {% endif %} {% endwith %}
+
+  <!-- PROJECT TABLE -->
+
+  <div class="table-wrapper">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+
+          <th>Project</th>
+
+          <th>Category</th>
+
+          <th>Technology</th>
+
+          <th>Status</th>
+
+          <th>Featured</th>
+
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% if projects %} {% for project in projects %}
+
+        <tr>
+          <!-- ID -->
+
+          <td>{{ project.id }}</td>
+
+          <!-- PROJECT -->
+
+          <td>
+            <strong> {{ project.title }} </strong>
+
+            {% if project.slug %}
+
+            <br />
+
+            <small> {{ project.slug }} </small>
+
+            {% endif %}
+          </td>
+
+          <!-- CATEGORY -->
+
+          <td>{{ project.category or "-" }}</td>
+
+          <!-- TECHNOLOGY -->
+
+          <td>{{ project.technology or "-" }}</td>
+
+          <!-- STATUS -->
+
+          <td>
+            {% if project.status %}
+
+            <span class="status"> {{ project.status }} </span>
+
+            {% else %}
+
+            <span class="status"> - </span>
+
+            {% endif %}
+          </td>
+
+          <!-- FEATURED -->
+
+          <td>
+            {% if project.featured %}
+
+            <span class="status featured"> Yes </span>
+
+            {% else %}
+
+            <span class="status"> No </span>
+
+            {% endif %}
+          </td>
+
+          <!-- ACTIONS -->
+
+          <td>
+            <div class="action-buttons">
+              <a
+                href="{{ url_for(
+                                        'admin.edit_project',
+                                        id=project.id
+                                    ) }}"
+                class="btn btn-edit"
+              >
+                Edit
+              </a>
+
+              <form
+                method="POST"
+                action="{{ url_for(
+                                        'admin.delete_project',
+                                        id=project.id
+                                    ) }}"
+                onsubmit="
+                  return confirm(
+                    'Are you sure you want to delete this project?',
+                  );
+                "
+              >
+                <button type="submit" class="btn btn-delete">Delete</button>
+              </form>
+            </div>
+          </td>
+        </tr>
+
+        {% endfor %} {% else %}
+
+        <tr>
+          <td colspan="7" class="empty-state">No projects found.</td>
+        </tr>
+
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<style>
+  .admin-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+  }
+
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+
+  .page-header h1 {
+    margin: 5px 0;
+  }
+
+  .eyebrow {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+  }
+
+  .header-actions {
+    display: flex;
+    gap: 10px;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 9px 15px;
+    border-radius: 6px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+  }
+
+  .btn-primary {
+    background: #111827;
+    color: white;
+  }
+
+  .btn-secondary {
+    background: #e5e7eb;
+    color: #111827;
+  }
+
+  .btn-edit {
+    background: #2563eb;
+    color: white;
+  }
+
+  .btn-delete {
+    background: #dc2626;
+    color: white;
+  }
+
+  .action-buttons {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .action-buttons form {
+    margin: 0;
+  }
+
+  .table-wrapper {
+    overflow-x: auto;
+    background: #42454a;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+  }
+
+  .admin-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .admin-table th,
+  .admin-table td {
+    padding: 14px;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .admin-table th {
+    background: #404549;
+    font-weight: 600;
+  }
+
+  .admin-table small {
+    color: #6b7280;
+  }
+
+  .status {
+    display: inline-block;
+    padding: 4px 9px;
+    border-radius: 20px;
+    background: #232935;
+    font-size: 12px;
+  }
+
+  .status.featured {
+    background: #dcfce7;
+    color: #166534;
+  }
+
+  .empty-state {
+    text-align: center !important;
+    padding: 40px !important;
+    color: #6b7280;
+  }
+
+  .alert {
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+  }
+
+  .alert.success {
+    background: #333935;
+    color: #72df9c;
+  }
+
+  .alert.danger,
+  .alert.error {
+    background: #fee2e2;
+    color: #991b1b;
+  }
+
+  @media (max-width: 768px) {
+    .page-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .header-actions {
+      width: 100%;
+    }
+
+    .action-buttons {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+</style>
+
+{% endblock %}

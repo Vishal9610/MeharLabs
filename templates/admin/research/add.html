@@ -1,0 +1,146 @@
+{% extends "base.html" %} {% block title %} Add Research | MeharLabs {% endblock
+%} {% block content %}
+
+<div class="admin-page">
+  <div class="page-header">
+    <div>
+      <p class="eyebrow">MEHARLABS RESEARCH</p>
+
+      <h1>Add Research</h1>
+
+      <p>Add a new research project to MeharLabs.</p>
+    </div>
+
+    <div>
+      <a href="{{ url_for('admin.research_list') }}" class="btn btn-secondary">
+        ← Back to Research
+      </a>
+    </div>
+  </div>
+
+  <div class="form-card">
+    <form method="POST" enctype="multipart/form-data">
+      <!-- TITLE -->
+
+      <div class="form-group">
+        <label for="title"> Research Title </label>
+
+        <input
+          type="text"
+          id="title"
+          name="title"
+          placeholder="Enter research title"
+          required
+        />
+      </div>
+
+      <!-- SHORT DESCRIPTION -->
+
+      <div class="form-group">
+        <label for="short_description"> Short Description </label>
+
+        <textarea
+          id="short_description"
+          name="short_description"
+          rows="4"
+          placeholder="Enter a short description"
+        ></textarea>
+      </div>
+
+      <!-- DESCRIPTION -->
+
+      <div class="form-group">
+        <label for="description"> Full Description </label>
+
+        <textarea
+          id="description"
+          name="description"
+          rows="8"
+          placeholder="Enter complete research description"
+        ></textarea>
+      </div>
+
+      <!-- RESEARCH AREA -->
+
+      <div class="form-group">
+        <label for="research_area"> Research Area </label>
+
+        <input
+          type="text"
+          id="research_area"
+          name="research_area"
+          placeholder="Example: Artificial Intelligence"
+        />
+      </div>
+
+      <!-- TECHNOLOGY -->
+
+      <div class="form-group">
+        <label for="technology"> Technology </label>
+
+        <input
+          type="text"
+          id="technology"
+          name="technology"
+          placeholder="Example: Python, AI, Machine Learning"
+        />
+      </div>
+
+      <!-- STATUS -->
+
+      <div class="form-group">
+        <label for="status"> Status </label>
+
+        <select id="status" name="status">
+          <option value="Research">Research</option>
+
+          <option value="Ongoing">Ongoing</option>
+
+          <option value="Completed">Completed</option>
+
+          <option value="Draft">Draft</option>
+        </select>
+      </div>
+
+      <!-- IMAGE -->
+
+      <div class="form-group">
+        <label for="image"> Research Image </label>
+
+        <input
+          type="file"
+          id="image"
+          name="image"
+          accept=".jpg,.jpeg,.png,.webp"
+        />
+
+        <small> Allowed formats: JPG, JPEG, PNG, WEBP </small>
+      </div>
+
+      <!-- FEATURED -->
+
+      <div class="form-group checkbox-group">
+        <label>
+          <input type="checkbox" name="featured" value="1" />
+
+          Featured Research
+        </label>
+      </div>
+
+      <!-- BUTTONS -->
+
+      <div class="form-actions">
+        <a
+          href="{{ url_for('admin.research_list') }}"
+          class="btn btn-secondary"
+        >
+          Cancel
+        </a>
+
+        <button type="submit" class="btn btn-primary">Add Research</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

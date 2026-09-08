@@ -1,0 +1,107 @@
+{% extends "base.html" %} {% block title %} {{ research.title }} | MeharLabs {%
+endblock %} {% block content %}
+
+<section class="page-header">
+  <div class="container">
+    <p class="eyebrow">{{ research.research_area }}</p>
+
+    <h1>{{ research.title }}</h1>
+
+    <p>{{ research.short_description }}</p>
+  </div>
+</section>
+
+<section class="research-detail">
+  <div class="container">
+    <div class="research-detail-grid">
+      <div class="research-main">
+        <!-- RESEARCH IMAGE -->
+
+        {% if research.image %}
+
+        <img
+          src="{{ url_for('static', filename='uploads/research/' ~ research.image) }}"
+          alt="{{ research.title }}"
+          class="research-detail-image"
+        />
+
+        {% endif %}
+
+        <h2>About This Research</h2>
+
+        <p>{{ research.description }}</p>
+
+        <h2>Technology</h2>
+
+        <p>{{ research.technology }}</p>
+
+        <h2>Research Status</h2>
+
+        <p>{{ research.status }}</p>
+      </div>
+
+      <aside class="research-sidebar">
+        <div class="tech-card">
+          <p class="eyebrow">RESEARCH AREA</p>
+
+          <h3>{{ research.research_area }}</h3>
+
+          <p>
+            <strong> Status </strong>
+          </p>
+
+          <p>{{ research.status }}</p>
+
+          <p>
+            <strong> Technology </strong>
+          </p>
+
+          <p>{{ research.technology }}</p>
+
+          <p>
+            <strong> Published </strong>
+          </p>
+
+          <p>{{ research.created_at }}</p>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="container">
+    <p class="eyebrow">MEHARLABS RESEARCH</p>
+
+    <h2>Interested in this research?</h2>
+
+    <p>
+      Collaborate with MeharLabs on emerging technologies and research
+      initiatives.
+    </p>
+
+    <a href="#" class="btn primary"> Contact MeharLabs </a>
+  </div>
+</section>
+
+<style>
+  .research-image {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .research-detail-image {
+    width: 100%;
+    max-height: 450px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    display: block;
+  }
+</style>
+
+{% endblock %}

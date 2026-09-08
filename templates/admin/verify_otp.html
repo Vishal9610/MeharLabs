@@ -1,0 +1,48 @@
+{% extends "base.html" %} {% block title %} MeharLabs | Verify OTP {% endblock
+%} {% block content %}
+
+<section class="admin-login">
+  <div class="container">
+    <div class="admin-login-card">
+      <p class="eyebrow">MEHARLABS ADMIN</p>
+
+      <h1>Verify OTP</h1>
+
+      <p>Enter the 6-digit OTP sent to your email address.</p>
+
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %} {% for category, message in messages %}
+
+      <div class="flash {{ category }}">{{ message }}</div>
+
+      {% endfor %} {% endif %} {% endwith %}
+
+      <form method="POST">
+        <div class="form-group">
+          <label for="otp"> Enter OTP </label>
+
+          <input
+            type="text"
+            id="otp"
+            name="otp"
+            placeholder="Enter 6-digit OTP"
+            maxlength="6"
+            pattern="[0-9]{6}"
+            inputmode="numeric"
+            required
+          />
+        </div>
+
+        <button type="submit">Verify OTP</button>
+      </form>
+
+      <div class="login-links">
+        <a href="{{ url_for('admin.login_otp') }}"> Send OTP Again </a>
+
+        <a href="{{ url_for('admin.login') }}"> Password Login </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

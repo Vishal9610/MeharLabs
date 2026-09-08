@@ -1,0 +1,171 @@
+{% extends "base.html" %} {% block title %} {% if publication %} MeharLabs |
+Edit Publication {% else %} MeharLabs | Add Publication {% endif %} {% endblock
+%} {% block content %}
+
+<section class="admin-dashboard">
+  <div class="container">
+    <div class="admin-header">
+      <div>
+        <p class="eyebrow">ADMIN PANEL</p>
+
+        <h1>
+          {% if publication %} Edit Publication {% else %} Add Publication {%
+          endif %}
+        </h1>
+
+        <p>Manage publication information.</p>
+      </div>
+
+      <a
+        href="{{ url_for('publications.publication_list') }}"
+        class="btn secondary"
+      >
+        ← Back
+      </a>
+    </div>
+
+    <div class="admin-card">
+      <form method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="title"> Title </label>
+
+          <input
+            type="text"
+            id="title"
+            name="title"
+            value="{% if publication %}{{ publication.title }}{% endif %}"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="authors"> Authors </label>
+
+          <input
+            type="text"
+            id="authors"
+            name="authors"
+            value="{% if publication %}{{ publication.authors or '' }}{% endif %}"
+            placeholder="Author names"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="abstract"> Abstract </label>
+
+          <textarea id="abstract" name="abstract" rows="7">
+{% if publication %}{{ publication.abstract or '' }}{% endif %}</textarea
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="journal"> Journal / Conference </label>
+
+          <input
+            type="text"
+            id="journal"
+            name="journal"
+            value="{% if publication %}{{ publication.journal or '' }}{% endif %}"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="publication_date"> Publication Date </label>
+
+          <input
+            type="date"
+            id="publication_date"
+            name="publication_date"
+            value="{% if publication and publication.publication_date %}{{ publication.publication_date }}{% endif %}"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="doi"> DOI </label>
+
+          <input
+            type="text"
+            id="doi"
+            name="doi"
+            value="{% if publication %}{{ publication.doi or '' }}{% endif %}"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="paper_url"> Paper URL </label>
+
+          <input
+            type="url"
+            id="paper_url"
+            name="paper_url"
+            value="{% if publication %}{{ publication.paper_url or '' }}{% endif %}"
+            placeholder="https://..."
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="category"> Category </label>
+
+          <input
+            type="text"
+            id="category"
+            name="category"
+            value="{% if publication %}{{ publication.category or '' }}{% endif %}"
+            placeholder="AI, Quantum Computing, Medical AI..."
+          />
+        </div>
+
+        {% if publication and publication.image %}
+
+        <div class="form-group">
+          <label> Current Image </label>
+
+          <br />
+
+          <img
+            src="{{ url_for(
+              'static',
+              filename='uploads/publications/' ~ publication.image
+            ) }}"
+            alt="{{ publication.title }}"
+            style="max-width: 220px"
+          />
+        </div>
+
+        {% endif %}
+
+        <div class="form-group">
+          <label for="image">
+            {% if publication %} Replace Image {% else %} Publication Image {%
+            endif %}
+          </label>
+
+          <input
+            type="file"
+            id="image"
+            name="image"
+            accept=".jpg,.jpeg,.png,.webp"
+          />
+
+          <small> Allowed formats: JPG, JPEG, PNG, WEBP </small>
+        </div>
+
+        <div class="form-actions">
+          <a
+            href="{{ url_for('publications.publication_list') }}"
+            class="btn secondary"
+          >
+            Cancel
+          </a>
+
+          <button type="submit" class="btn">
+            {% if publication %} Update Publication {% else %} Add Publication
+            {% endif %}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

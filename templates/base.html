@@ -1,0 +1,248 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>{% block title %}MeharLabs{% endblock %}</title>
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/main.css') }}"
+    />
+
+    {% if request.path.startswith('/admin') %}
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/admin.css') }}"
+    />
+    {% endif %}
+  </head>
+
+  <body>
+    <!-- ================= NAVBAR ================= -->
+
+    <header class="navbar">
+      <div class="container navbar-content">
+        <a href="{{ url_for('home.home') }}" class="logo">
+          MEHAR<span>LABS</span>
+        </a>
+
+        <nav>
+          <a href="{{ url_for('home.home') }}">Home</a>
+
+          <a href="{{ url_for('technology.technology_list') }}"> Technology </a>
+
+          <a href="{{ url_for('research.research_list') }}"> Research </a>
+
+          <a href="{{ url_for('projects.project_list') }}"> Projects </a>
+
+          <a href="{{ url_for('publications_public.publication_list') }}">
+            Publications
+          </a>
+
+          <a href="{{ url_for('team_public.team') }}"> Team </a>
+
+          <a href="{{ url_for('news_public.news_list') }}"> News </a>
+
+          <a href="{{ url_for('about.about_page') }}"> About </a>
+
+          <a href="{{ url_for('contact.contact') }}"> Contact </a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- ================= MAIN CONTENT ================= -->
+
+    <main>{% block content %} {% endblock %}</main>
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer class="site-footer">
+      <div class="container">
+        <!-- Footer Main -->
+
+        <div class="footer-grid">
+          <!-- About -->
+
+          <div class="footer-column footer-about">
+            <a href="{{ url_for('home.home') }}" class="footer-logo">
+              MEHAR<span>LABS</span>
+            </a>
+
+            <p>
+              MeharLabs is a deep-tech research and innovation initiative
+              exploring Artificial Intelligence, Medical Diagnostics, Underwater
+              Intelligence and Quantum Computing.
+            </p>
+
+            <div class="footer-social">
+              <a href="#" aria-label="X" title="X"> X </a>
+
+              <a href="#" aria-label="LinkedIn" title="LinkedIn"> in </a>
+
+              <a href="#" aria-label="GitHub" title="GitHub"> Git </a>
+            </div>
+          </div>
+
+          <!-- Explore -->
+
+          <div class="footer-column">
+            <h3>Explore</h3>
+
+            <ul>
+              <li>
+                <a href="{{ url_for('home.home') }}"> Home </a>
+              </li>
+
+              <li>
+                <a href="{{ url_for('about.about_page') }}"> About Us </a>
+              </li>
+
+              <li>
+                <a href="{{ url_for('technology.technology_list') }}">
+                  Technology
+                </a>
+              </li>
+
+              <li>
+                <a href="{{ url_for('research.research_list') }}"> Research </a>
+              </li>
+
+              <li>
+                <a href="{{ url_for('projects.project_list') }}"> Projects </a>
+              </li>
+
+              <li>
+                <a href="{{ url_for('news_public.news_list') }}"> News </a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Research & Innovation -->
+
+          <div class="footer-column">
+            <h3>Our Focus</h3>
+
+            <ul>
+              <li>
+                <a href="{{ url_for('technology.technology_list') }}">
+                  AI & Machine Learning
+                </a>
+              </li>
+
+              <li>
+                <a href="{{ url_for('technology.technology_list') }}">
+                  Medical Diagnostics
+                </a>
+              </li>
+
+              <li>
+                <a href="{{ url_for('technology.technology_list') }}">
+                  Underwater Intelligence
+                </a>
+              </li>
+
+              <li>
+                <a href="{{ url_for('technology.technology_list') }}">
+                  Quantum Computing
+                </a>
+              </li>
+
+              <li>
+                <a href="{{ url_for('research.research_list') }}">
+                  Research & Innovation
+                </a>
+              </li>
+
+              <li>
+                <a href="{{ url_for('projects.project_list') }}">
+                  Research Projects
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Contact -->
+
+          <div class="footer-column">
+            <h3>Get In Touch</h3>
+
+            <p class="footer-contact-text">
+              Interested in research collaboration, technology partnerships or
+              innovative AI/ML projects?
+            </p>
+
+            <ul class="footer-contact">
+              <li>
+                <span class="contact-icon">@</span>
+
+                <a href="mailto:info@meharlabs.com">
+                  maggarwal@care.iitd.ernet.in
+                </a>
+              </li>
+
+              <li>
+                <span class="contact-icon">+</span>
+
+                <a href="tel:+910000000000"> +91-11-26591113</a>
+              </li>
+
+              <li>
+                <span class="contact-icon">⌖</span>
+
+                <span> India </span>
+              </li>
+            </ul>
+
+            <a
+              href="{{ url_for('contact.contact') }}"
+              class="footer-contact-button"
+            >
+              Contact Us →
+            </a>
+          </div>
+        </div>
+
+        <!-- Footer CTA -->
+
+        <div class="footer-cta">
+          <div>
+            <p class="eyebrow">COLLABORATE WITH US</p>
+
+            <h2>Build the Future With MeharLabs</h2>
+
+            <p>
+              Join us in exploring intelligent technologies and turning
+              ambitious research ideas into real-world innovation.
+            </p>
+          </div>
+
+          <a href="{{ url_for('contact.contact') }}" class="btn">
+            Start a Conversation →
+          </a>
+        </div>
+
+        <!-- Footer Bottom -->
+
+        <div class="footer-bottom">
+          <p>© 2026 MeharLabs. All Rights Reserved.</p>
+
+          <div class="footer-bottom-links">
+            <a href="#"> Privacy Policy </a>
+
+            <span>|</span>
+
+            <a href="#"> Terms & Conditions </a>
+
+            <span>|</span>
+
+            <a href="{{ url_for('contact.contact') }}"> Contact </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,209 @@
+{% extends "base.html" %} {% block title %} {% if project %} MeharLabs | Edit
+Project {% else %} MeharLabs | Add Project {% endif %} {% endblock %} {% block
+content %}
+
+<section class="admin-dashboard">
+  <div class="container">
+    <div class="admin-header">
+      <div>
+        <p class="eyebrow">PROJECT MANAGEMENT</p>
+
+        <h1>
+          {% if project %} Edit Project {% else %} Add Project {% endif %}
+        </h1>
+      </div>
+
+      <a href="{{ url_for('admin.project_list') }}" class="btn secondary">
+        ← Back
+      </a>
+    </div>
+
+    <div class="admin-form-card">
+      <form method="POST" enctype="multipart/form-data">
+        <!-- TITLE -->
+
+        <div class="form-group">
+          <label> Project Title </label>
+
+          <input
+            type="text"
+            name="title"
+            value="{% if project %}{{ project.title }}{% endif %}"
+            placeholder="e.g. MeharVision"
+            required
+          />
+        </div>
+
+        <!-- SLUG -->
+
+        <div class="form-group">
+          <label> Slug </label>
+
+          <input
+            type="text"
+            name="slug"
+            value="{% if project %}{{ project.slug }}{% endif %}"
+            placeholder="meharvision"
+            required
+          />
+
+          <small> Example: meharvision </small>
+        </div>
+
+        <!-- SHORT DESCRIPTION -->
+
+        <div class="form-group">
+          <label> Short Description </label>
+
+          <textarea
+            name="short_description"
+            rows="4"
+            placeholder="Short project description..."
+          >
+{% if project %}{{ project.short_description }}{% endif %}</textarea
+          >
+        </div>
+
+        <!-- DESCRIPTION -->
+
+        <div class="form-group">
+          <label> Full Description </label>
+
+          <textarea
+            name="description"
+            rows="8"
+            placeholder="Complete project description..."
+          >
+{% if project %}{{ project.description }}{% endif %}</textarea
+          >
+        </div>
+
+        <!-- CATEGORY -->
+
+        <div class="form-group">
+          <label> Category </label>
+
+          <select name="category">
+            <option value="AI & ML">AI & ML</option>
+
+            <option value="Medical AI">Medical AI</option>
+
+            <option value="Underwater AI">Underwater AI</option>
+
+            <option value="Robotics">Robotics</option>
+
+            <option value="Quantum">Quantum</option>
+          </select>
+        </div>
+
+        <!-- TECHNOLOGY -->
+
+        <div class="form-group">
+          <label> Technology </label>
+
+          <input
+            type="text"
+            name="technology"
+            value="{% if project %}{{ project.technology }}{% endif %}"
+            placeholder="Python, PyTorch, OpenCV"
+          />
+        </div>
+
+        <!-- STATUS -->
+
+        <div class="form-group">
+          <label> Status </label>
+
+          <select name="status">
+            <option value="Research">Research</option>
+
+            <option value="Prototype">Prototype</option>
+
+            <option value="Development">Development</option>
+
+            <option value="Completed">Completed</option>
+          </select>
+        </div>
+
+        <!-- GITHUB -->
+
+        <div class="form-group">
+          <label> GitHub URL </label>
+
+          <input
+            type="url"
+            name="github_url"
+            value="{% if project %}{{ project.github_url }}{% endif %}"
+            placeholder="https://github.com/..."
+          />
+        </div>
+
+        <!-- DEMO -->
+
+        <div class="form-group">
+          <label> Demo URL </label>
+
+          <input
+            type="url"
+            name="demo_url"
+            value="{% if project %}{{ project.demo_url }}{% endif %}"
+            placeholder="https://..."
+          />
+        </div>
+
+        <!-- PROJECT IMAGE -->
+
+        <div class="form-group">
+          <label for="image">Project Image</label>
+
+          <input type="file" id="image" name="image" accept="image/*" />
+
+          {% if project and project.image %}
+          <div style="margin-top: 15px">
+            <p>Current Image:</p>
+
+            <img
+              src="{{ url_for('static', filename='uploads/projects/' ~ project.image) }}"
+              alt="{{ project.title }}"
+              style="
+                width: 220px;
+                height: 130px;
+                object-fit: cover;
+                border-radius: 8px;
+              "
+            />
+          </div>
+          {% endif %}
+        </div>
+
+        <!-- FEATURED -->
+
+        <div class="checkbox-group">
+          <input
+            type="checkbox"
+            id="featured"
+            name="featured"
+            {%
+            if
+            project
+            and
+            project.featured
+            %}
+            checked
+            {%
+            endif
+            %}
+          />
+
+          <label for="featured"> Show this project on homepage </label>
+        </div>
+
+        <button type="submit" class="btn primary">
+          {% if project %} Update Project {% else %} Add Project {% endif %}
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

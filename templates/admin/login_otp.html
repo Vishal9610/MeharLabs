@@ -1,0 +1,44 @@
+{% extends "base.html" %} {% block title %} MeharLabs | Email OTP Login {%
+endblock %} {% block content %}
+
+<section class="admin-login">
+  <div class="container">
+    <div class="admin-login-card">
+      <p class="eyebrow">MEHARLABS ADMIN</p>
+
+      <h1>Login with Email OTP</h1>
+
+      <p>
+        Enter your registered admin email address. We will send you a one-time
+        password.
+      </p>
+
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %} {% for category, message in messages %}
+      <div class="flash {{ category }}">{{ message }}</div>
+      {% endfor %} {% endif %} {% endwith %}
+
+      <form method="POST">
+        <div class="form-group">
+          <label for="email"> Admin Email </label>
+
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Enter your email"
+            required
+          />
+        </div>
+
+        <button type="submit">Send OTP</button>
+      </form>
+
+      <div class="login-links">
+        <a href="{{ url_for('admin.login') }}"> Back to Password Login </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
