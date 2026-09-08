@@ -43,9 +43,9 @@ class Config:
     )
 
 
-        # =========================
+        
     # EMAIL CONFIGURATION
-    # =========================
+    
 
     MAIL_SERVER = os.environ.get(
         "MAIL_SERVER",

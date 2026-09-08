@@ -18,9 +18,9 @@ def home():
 )
 
 
-# =========================
+ 
 # Featured Research
-# =========================
+ 
 
   cur.execute("""
     SELECT *
@@ -33,9 +33,9 @@ def home():
   research = cur.fetchall()
 
 
-# =========================
+ 
 # Featured Projects
-# =========================
+ 
 
   cur.execute("""
     SELECT *
@@ -48,9 +48,9 @@ def home():
   projects = cur.fetchall()
 
 
-# =========================
+ 
 # Technologies
-# =========================
+ 
 
   cur.execute("""
     SELECT

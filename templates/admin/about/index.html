@@ -3,9 +3,9 @@
 
 <section class="admin-dashboard">
   <div class="container">
-    <!-- =========================
+    <!--  
          ADMIN HEADER
-    ========================== -->
+      -->
 
     <div class="admin-header">
       <div>
@@ -31,9 +31,9 @@
       </div>
     </div>
 
-    <!-- =========================
+    <!--  
          FLASH MESSAGES
-    ========================== -->
+      -->
 
     {% with messages = get_flashed_messages(with_categories=true) %} {% if
     messages %} {% for category, message in messages %}
@@ -42,15 +42,15 @@
 
     {% endfor %} {% endif %} {% endwith %}
 
-    <!-- =========================
+    <!--  
          ABOUT FORM
-    ========================== -->
+      -->
 
     <div class="admin-form-card">
       <form method="POST" action="{{ url_for('admin.about_list') }}">
-        <!-- =========================
+        <!--  
              HERO SECTION
-        ========================== -->
+          -->
 
         <div class="form-section">
           <div class="form-section-header">
@@ -93,9 +93,9 @@
           </div>
         </div>
 
-        <!-- =========================
+        <!--  
              WHO WE ARE
-        ========================== -->
+          -->
 
         <div class="form-section">
           <div class="form-section-header">
@@ -135,9 +135,9 @@
           </div>
         </div>
 
-        <!-- =========================
+        <!--  
              MISSION
-        ========================== -->
+          -->
 
         <div class="form-section">
           <div class="form-section-header">
@@ -181,9 +181,9 @@
           </div>
         </div>
 
-        <!-- =========================
+        <!--  
              VISION
-        ========================== -->
+          -->
 
         <div class="form-section">
           <div class="form-section-header">
@@ -227,9 +227,9 @@
           </div>
         </div>
 
-        <!-- =========================
+        <!--  
              TECHNOLOGY & RESEARCH
-        ========================== -->
+          -->
 
         <div class="form-section">
           <div class="form-section-header">
@@ -359,9 +359,9 @@
           </div>
         </div>
 
-        <!-- =========================
+        <!--  
              FOCUS SECTION
-        ========================== -->
+          -->
 
         <div class="form-section">
           <div class="form-section-header">
@@ -401,9 +401,9 @@
           </div>
         </div>
 
-        <!-- =========================
+        <!--  
              CTA
-        ========================== -->
+          -->
 
         <div class="form-section">
           <div class="form-section-header">
@@ -456,9 +456,9 @@
           </div>
         </div>
 
-        <!-- =========================
+        <!--  
              FORM ACTIONS
-        ========================== -->
+          -->
 
         <div class="form-actions">
           <a href="{{ url_for('admin.dashboard') }}" class="btn secondary">

@@ -19,9 +19,9 @@ contact_bp = Blueprint(
 )
 
 
-# ============================================================
+ 
 # CONTACT PAGE + SEND MESSAGE
-# ============================================================
+ 
 
 @contact_bp.route("/", methods=["GET", "POST"])
 def contact():
@@ -120,9 +120,9 @@ def contact():
     )
 
 
-# ============================================================
+ 
 # ADMIN CONTACT MESSAGES
-# ============================================================
+ 
 
 @contact_bp.route("/messages")
 def contact_list():

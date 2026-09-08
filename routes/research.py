@@ -10,11 +10,11 @@ __name__,
 url_prefix="/research"
 )
 
-# =========================
+ 
 
 # RESEARCH LIST
 
-# =========================
+ 
 
 @research_bp.route("/")
 def research_list():
@@ -52,11 +52,11 @@ def research_list():
 )
   
 
-# =========================
+ 
 
 # RESEARCH DETAIL
 
-# =========================
+ 
 
 @research_bp.route("/<slug>")
 def research_detail(slug):

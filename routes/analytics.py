@@ -19,9 +19,9 @@ def dashboard():
 
     now = datetime.now()
 
-    # -----------------------------------
+     
     # SELECTED MONTH
-    # -----------------------------------
+     
 
     selected_year = request.args.get(
         "year",
@@ -39,13 +39,13 @@ def dashboard():
     if selected_month < 1 or selected_month > 12:
         selected_month = now.month
 
-    # -----------------------------------
+     
     # SELECTED YEAR
-    # -----------------------------------
+     
 
-    # -----------------------------------
+     
     # SUMMARY
-    # -----------------------------------
+     
 
     # Total views
     cur.execute("""
@@ -86,9 +86,9 @@ def dashboard():
 
     year_views = cur.fetchone()[0]
 
-    # -----------------------------------
+     
     # SELECTED MONTH ANALYTICS
-    # -----------------------------------
+     
 
     cur.execute("""
         SELECT COUNT(*)
@@ -102,9 +102,9 @@ def dashboard():
 
     selected_month_views = cur.fetchone()[0]
 
-    # -----------------------------------
+     
     # SELECTED YEAR ANALYTICS
-    # -----------------------------------
+     
 
     cur.execute("""
         SELECT COUNT(*)
@@ -114,9 +114,9 @@ def dashboard():
 
     selected_year_views = cur.fetchone()[0]
 
-    # -----------------------------------
+     
     # PAGE ANALYTICS
-    # -----------------------------------
+     
 
     selected_period = request.args.get(
         "period",
@@ -177,9 +177,9 @@ def dashboard():
 
     page_views = cur.fetchall()
 
-    # -----------------------------------
+     
     # AVAILABLE YEARS
-    # -----------------------------------
+     
 
     cur.execute("""
         SELECT DISTINCT view_year
@@ -207,9 +207,9 @@ def dashboard():
         reverse=True
     )
 
-    # -----------------------------------
+     
     # MONTHS
-    # -----------------------------------
+     
 
     months = []
 
@@ -220,9 +220,9 @@ def dashboard():
             "name": calendar.month_name[month_number]
         })
 
-    # -----------------------------------
+     
     # SELECTED MONTH NAME
-    # -----------------------------------
+     
 
     selected_month_name = calendar.month_name[
         selected_month

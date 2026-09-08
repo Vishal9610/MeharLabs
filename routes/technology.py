@@ -10,9 +10,9 @@ technology_bp = Blueprint(
 )
 
 
-# =========================
+ 
 # TECHNOLOGY LIST
-# =========================
+ 
 
 @technology_bp.route("/")
 def technology_list():
@@ -66,9 +66,9 @@ def technology_list():
     )
 
 
-# =========================
+ 
 # TECHNOLOGY DETAIL
-# =========================
+ 
 
 @technology_bp.route("/<slug>")
 def technology_detail(slug):
