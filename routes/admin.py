@@ -126,9 +126,9 @@ def login_otp():
                 url_for("admin.login_otp")
             )
 
-        # ----------------------------------------------------
+         
         # Registered admin email
-        # ----------------------------------------------------
+         
 
         registered_email = current_app.config.get(
             "ADMIN_EMAIL",
@@ -146,9 +146,9 @@ def login_otp():
                 "admin/login_otp.html"
             )
 
-        # ----------------------------------------------------
+         
         # Generate OTP
-        # ----------------------------------------------------
+         
 
         otp = str(
             random.randint(
@@ -161,9 +161,9 @@ def login_otp():
         session["admin_otp_email"] = email
         session["admin_otp_time"] = time.time()
 
-        # ----------------------------------------------------
+         
         # Send email
-        # ----------------------------------------------------
+         
 
         try:
 
@@ -254,9 +254,9 @@ def verify_otp():
             "admin_otp_time"
         )
 
-        # ----------------------------------------------------
+         
         # OTP expiry - 5 minutes
-        # ----------------------------------------------------
+         
 
         if (
             not otp_time
@@ -287,9 +287,9 @@ def verify_otp():
                 url_for("admin.login_otp")
             )
 
-        # ----------------------------------------------------
+         
         # Check OTP
-        # ----------------------------------------------------
+         
 
         if entered_otp != saved_otp:
 
@@ -302,9 +302,9 @@ def verify_otp():
                 url_for("admin.verify_otp")
             )
 
-        # ----------------------------------------------------
+         
         # Login successful
-        # ----------------------------------------------------
+         
 
         session["admin_logged_in"] = True
 
@@ -502,9 +502,9 @@ def add_project():
 
         image_name = None
 
-        # ----------------------------------------------------
+         
         # Validate title
-        # ----------------------------------------------------
+         
 
         if not title:
 
@@ -517,9 +517,9 @@ def add_project():
                 url_for("admin.add_project")
             )
 
-        # ----------------------------------------------------
+         
         # Generate slug
-        # ----------------------------------------------------
+         
 
         slug = re.sub(
             r"[^a-z0-9]+",
@@ -538,9 +538,9 @@ def add_project():
                 url_for("admin.add_project")
             )
 
-        # ----------------------------------------------------
+         
         # Image upload
-        # ----------------------------------------------------
+         
 
         if image and image.filename:
 
@@ -580,9 +580,9 @@ def add_project():
                 )
             )
 
-        # ----------------------------------------------------
+         
         # Database
-        # ----------------------------------------------------
+         
 
         cur = mysql.connection.cursor()
 
@@ -611,9 +611,9 @@ def add_project():
 
             counter += 1
 
-        # ----------------------------------------------------
+         
         # Insert
-        # ----------------------------------------------------
+         
 
         cur.execute(
             """
@@ -769,9 +769,9 @@ def edit_project(id):
 
         image_name = project["image"]
 
-        # ----------------------------------------------------
+         
         # New image
-        # ----------------------------------------------------
+         
 
         if image and image.filename:
 
@@ -818,9 +818,9 @@ def edit_project(id):
 
             image_name = filename
 
-        # ----------------------------------------------------
+         
         # Update
-        # ----------------------------------------------------
+         
 
         cur.execute(
             """
@@ -1054,9 +1054,9 @@ def research_add():
                 url_for("admin.research_add")
             )
 
-        # ----------------------------------------------------
+         
         # Slug
-        # ----------------------------------------------------
+         
 
         slug = re.sub(
             r"[^a-z0-9]+",
@@ -1094,9 +1094,9 @@ def research_add():
 
             counter += 1
 
-        # ----------------------------------------------------
+         
         # Image
-        # ----------------------------------------------------
+         
 
         image_filename = None
 
@@ -1146,9 +1146,9 @@ def research_add():
                 )
             )
 
-        # ----------------------------------------------------
+         
         # Insert
-        # ----------------------------------------------------
+         
 
         cur.execute(
             """
@@ -1306,9 +1306,9 @@ def research_edit(id):
                 )
             )
 
-        # ----------------------------------------------------
+         
         # Slug
-        # ----------------------------------------------------
+         
 
         slug = re.sub(
             r"[^a-z0-9]+",
@@ -1348,9 +1348,9 @@ def research_edit(id):
 
             counter += 1
 
-        # ----------------------------------------------------
+         
         # Existing image
-        # ----------------------------------------------------
+         
 
         image_filename = item["image"]
 
@@ -1420,9 +1420,9 @@ def research_edit(id):
 
             image_filename = new_filename
 
-        # ----------------------------------------------------
+         
         # Update
-        # ----------------------------------------------------
+         
 
         cur.execute(
             """
@@ -1822,4 +1822,733 @@ def messages():
     return render_template(
         "admin/messages.html",
         messages=messages
+    )
+
+
+ 
+# TECHNOLOGY MANAGEMENT
+ 
+
+
+@admin_bp.route("/technologies")
+@admin_required
+def technology_list():
+
+    cur = mysql.connection.cursor(
+        MySQLdb.cursors.DictCursor
+    )
+
+    # Main technologies
+    cur.execute("""
+        SELECT
+            id,
+            parent_id,
+            title,
+            slug,
+            short_description,
+            description,
+            technology,
+            applications,
+            research_direction,
+            image,
+            featured,
+            created_at,
+            updated_at
+        FROM technologies
+        WHERE parent_id IS NULL
+        ORDER BY id DESC
+    """)
+
+    technologies = cur.fetchall()
+
+    # Children for each main technology
+    for technology_item in technologies:
+
+        cur.execute("""
+            SELECT
+                id,
+                parent_id,
+                title,
+                slug,
+                short_description,
+                description,
+                technology,
+                applications,
+                research_direction,
+                image,
+                featured,
+                created_at,
+                updated_at
+            FROM technologies
+            WHERE parent_id = %s
+            ORDER BY id DESC
+        """, (technology_item["id"],))
+
+        technology_item["children"] = cur.fetchall()
+
+    cur.close()
+
+    return render_template(
+        "admin/technology/index.html",
+        technologies=technologies
+    )
+
+
+ 
+# ADD TECHNOLOGY
+ 
+
+
+@admin_bp.route(
+    "/technologies/add",
+    methods=["GET", "POST"]
+)
+@admin_required
+def technology_add():
+
+    cur = mysql.connection.cursor(
+        MySQLdb.cursors.DictCursor
+    )
+
+     
+    # Main technologies for parent dropdown
+     
+
+    cur.execute("""
+        SELECT
+            id,
+            title
+        FROM technologies
+        WHERE parent_id IS NULL
+        ORDER BY title ASC
+    """)
+
+    parents = cur.fetchall()
+         
+    # Pre-selected parent for Add Child
+     
+
+    selected_parent_id = request.args.get(
+        "parent_id",
+        ""
+    ).strip()
+
+    if selected_parent_id:
+        try:
+            selected_parent_id = int(selected_parent_id)
+        except ValueError:
+            selected_parent_id = ""
+
+    if request.method == "POST":
+
+        parent_id = request.form.get(
+            "parent_id",
+            ""
+        ).strip()
+
+        title = request.form.get(
+            "title",
+            ""
+        ).strip()
+
+        short_description = request.form.get(
+            "short_description",
+            ""
+        ).strip()
+
+        description = request.form.get(
+            "description",
+            ""
+        ).strip()
+
+        technology = request.form.get(
+            "technology",
+            ""
+        ).strip()
+
+        applications = request.form.get(
+            "applications",
+            ""
+        ).strip()
+
+        research_direction = request.form.get(
+            "research_direction",
+            ""
+        ).strip()
+
+        featured = (
+            1
+            if request.form.get("featured")
+            else 0
+        )
+
+        uploaded_image = request.files.get(
+            "image"
+        )
+
+         
+        # Parent ID
+         
+
+        if parent_id:
+            parent_id = int(parent_id)
+        else:
+            parent_id = None
+
+         
+        # Validate title
+         
+
+        if not title:
+
+            cur.close()
+
+            flash(
+                "Technology title is required.",
+                "danger"
+            )
+
+            return redirect(
+                url_for("admin.technology_add")
+            )
+
+         
+        # Generate slug
+         
+
+        slug = re.sub(
+            r"[^a-z0-9]+",
+            "-",
+            title.lower()
+        ).strip("-")
+
+        if not slug:
+            slug = "technology"
+
+         
+        # Unique slug
+         
+
+        original_slug = slug
+        counter = 2
+
+        while True:
+
+            cur.execute("""
+                SELECT id
+                FROM technologies
+                WHERE slug = %s
+            """, (slug,))
+
+            existing = cur.fetchone()
+
+            if not existing:
+                break
+
+            slug = f"{original_slug}-{counter}"
+
+            counter += 1
+
+         
+        # Image upload
+         
+
+        image_filename = None
+
+        if (
+            uploaded_image
+            and uploaded_image.filename
+        ):
+
+            if not allowed_image(
+                uploaded_image.filename
+            ):
+
+                cur.close()
+
+                flash(
+                    "Only PNG, JPG, JPEG and WEBP images are allowed.",
+                    "danger"
+                )
+
+                return redirect(
+                    url_for("admin.technology_add")
+                )
+
+            image_filename = secure_filename(
+                uploaded_image.filename
+            )
+
+            upload_folder = os.path.join(
+                current_app.static_folder,
+                "uploads",
+                "technology"
+            )
+
+            os.makedirs(
+                upload_folder,
+                exist_ok=True
+            )
+
+            uploaded_image.save(
+                os.path.join(
+                    upload_folder,
+                    image_filename
+                )
+            )
+
+         
+        # Insert
+         
+
+        cur.execute("""
+            INSERT INTO technologies
+            (
+                parent_id,
+                title,
+                slug,
+                short_description,
+                description,
+                technology,
+                applications,
+                research_direction,
+                image,
+                featured
+            )
+            VALUES
+            (
+                %s, %s, %s, %s, %s,
+                %s, %s, %s, %s, %s
+            )
+        """, (
+            parent_id,
+            title,
+            slug,
+            short_description,
+            description,
+            technology,
+            applications,
+            research_direction,
+            image_filename,
+            featured
+        ))
+
+        mysql.connection.commit()
+
+        cur.close()
+
+        flash(
+            "Technology added successfully.",
+            "success"
+        )
+
+        return redirect(
+            url_for("admin.technology_list")
+        )
+
+    cur.close()
+
+    return render_template(
+        "admin/technology/form.html",
+        item=None,
+        parents=parents,
+        selected_parent_id=selected_parent_id
+    )
+
+
+ 
+# EDIT TECHNOLOGY
+ 
+
+
+@admin_bp.route(
+    "/technologies/edit/<int:id>",
+    methods=["GET", "POST"]
+)
+@admin_required
+def technology_edit(id):
+
+    cur = mysql.connection.cursor(
+        MySQLdb.cursors.DictCursor
+    )
+
+     
+    # Get technology
+     
+
+    cur.execute("""
+        SELECT *
+        FROM technologies
+        WHERE id = %s
+    """, (id,))
+
+    item = cur.fetchone()
+
+    if not item:
+
+        cur.close()
+
+        flash(
+            "Technology not found.",
+            "danger"
+        )
+
+        return redirect(
+            url_for("admin.technology_list")
+        )
+
+     
+    # Parent technologies
+     
+
+    cur.execute("""
+        SELECT
+            id,
+            title
+        FROM technologies
+        WHERE parent_id IS NULL
+        AND id != %s
+        ORDER BY title ASC
+    """, (id,))
+
+    parents = cur.fetchall()
+
+     
+    # POST
+     
+
+    if request.method == "POST":
+
+        parent_id = request.form.get(
+            "parent_id",
+            ""
+        ).strip()
+
+        title = request.form.get(
+            "title",
+            ""
+        ).strip()
+
+        slug = request.form.get(
+            "slug",
+            ""
+        ).strip()
+
+        short_description = request.form.get(
+            "short_description",
+            ""
+        ).strip()
+
+        description = request.form.get(
+            "description",
+            ""
+        ).strip()
+
+        technology = request.form.get(
+            "technology",
+            ""
+        ).strip()
+
+        applications = request.form.get(
+            "applications",
+            ""
+        ).strip()
+
+        research_direction = request.form.get(
+            "research_direction",
+            ""
+        ).strip()
+
+        featured = (
+            1
+            if request.form.get("featured")
+            else 0
+        )
+
+        uploaded_image = request.files.get(
+            "image"
+        )
+
+         
+        # Validate title
+         
+
+        if not title:
+
+            cur.close()
+
+            flash(
+                "Technology title is required.",
+                "danger"
+            )
+
+            return redirect(
+                url_for(
+                    "admin.technology_edit",
+                    id=id
+                )
+            )
+
+         
+        # Parent ID
+         
+
+        if parent_id:
+            parent_id = int(parent_id)
+        else:
+            parent_id = None
+
+         
+        # Slug
+         
+
+        if not slug:
+
+            slug = re.sub(
+                r"[^a-z0-9]+",
+                "-",
+                title.lower()
+            ).strip("-")
+
+        if not slug:
+            slug = "technology"
+
+         
+        # Unique slug
+         
+
+        original_slug = slug
+        counter = 2
+
+        while True:
+
+            cur.execute("""
+                SELECT id
+                FROM technologies
+                WHERE slug = %s
+                AND id != %s
+            """, (
+                slug,
+                id
+            ))
+
+            existing = cur.fetchone()
+
+            if not existing:
+                break
+
+            slug = (
+                f"{original_slug}-{counter}"
+            )
+
+            counter += 1
+
+         
+        # Existing image
+         
+
+        image_filename = item["image"]
+
+         
+        # New image
+         
+
+        if (
+            uploaded_image
+            and uploaded_image.filename
+        ):
+
+            if not allowed_image(
+                uploaded_image.filename
+            ):
+
+                cur.close()
+
+                flash(
+                    "Only PNG, JPG, JPEG and WEBP images are allowed.",
+                    "danger"
+                )
+
+                return redirect(
+                    url_for(
+                        "admin.technology_edit",
+                        id=id
+                    )
+                )
+
+            new_filename = secure_filename(
+                uploaded_image.filename
+            )
+
+            upload_folder = os.path.join(
+                current_app.static_folder,
+                "uploads",
+                "technology"
+            )
+
+            os.makedirs(
+                upload_folder,
+                exist_ok=True
+            )
+
+            # Delete old image
+            if image_filename:
+
+                old_image_path = os.path.join(
+                    upload_folder,
+                    image_filename
+                )
+
+                if os.path.exists(
+                    old_image_path
+                ):
+
+                    os.remove(
+                        old_image_path
+                    )
+
+            uploaded_image.save(
+                os.path.join(
+                    upload_folder,
+                    new_filename
+                )
+            )
+
+            image_filename = new_filename
+
+         
+        # Update
+         
+
+        cur.execute("""
+            UPDATE technologies
+            SET
+                parent_id = %s,
+                title = %s,
+                slug = %s,
+                short_description = %s,
+                description = %s,
+                technology = %s,
+                applications = %s,
+                research_direction = %s,
+                image = %s,
+                featured = %s
+            WHERE id = %s
+        """, (
+            parent_id,
+            title,
+            slug,
+            short_description,
+            description,
+            technology,
+            applications,
+            research_direction,
+            image_filename,
+            featured,
+            id
+        ))
+
+        mysql.connection.commit()
+
+        cur.close()
+
+        flash(
+            "Technology updated successfully.",
+            "success"
+        )
+
+        return redirect(
+            url_for("admin.technology_list")
+        )
+
+    cur.close()
+
+    return render_template(
+        "admin/technology/form.html",
+        item=item,
+        parents=parents
+        
+    )
+
+
+ 
+# DELETE TECHNOLOGY
+ 
+
+
+@admin_bp.route(
+    "/technologies/delete/<int:id>",
+    methods=["POST"]
+)
+@admin_required
+def technology_delete(id):
+
+    cur = mysql.connection.cursor(
+        MySQLdb.cursors.DictCursor
+    )
+
+     
+    # Get image
+     
+
+    cur.execute("""
+        SELECT image
+        FROM technologies
+        WHERE id = %s
+    """, (id,))
+
+    item = cur.fetchone()
+
+    if not item:
+
+        cur.close()
+
+        flash(
+            "Technology not found.",
+            "danger"
+        )
+
+        return redirect(
+            url_for("admin.technology_list")
+        )
+
+    image = item["image"]
+
+     
+    # Delete database record
+     
+
+    cur.execute("""
+        DELETE FROM technologies
+        WHERE id = %s
+    """, (id,))
+
+    mysql.connection.commit()
+
+    cur.close()
+
+     
+    # Delete image
+     
+
+    if image:
+
+        image_path = os.path.join(
+            current_app.static_folder,
+            "uploads",
+            "technology",
+            image
+        )
+
+        if os.path.exists(image_path):
+
+            os.remove(image_path)
+
+    flash(
+        "Technology deleted successfully.",
+        "success"
+    )
+
+    return redirect(
+        url_for("admin.technology_list")
     )

@@ -144,9 +144,9 @@ def add_publication():
                 )
             )
 
-        # --------------------------------
+         
         # IMAGE
-        # --------------------------------
+         
 
         image_filename = None
 
@@ -193,9 +193,9 @@ def add_publication():
                 )
             )
 
-        # --------------------------------
+         
         # DATABASE
-        # --------------------------------
+         
 
         cur = mysql.connection.cursor()
 

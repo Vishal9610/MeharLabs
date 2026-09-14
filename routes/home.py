@@ -51,23 +51,24 @@ def home():
  
 # Technologies
  
-
-  cur.execute("""
-    SELECT
-        id,
-        title,
-        slug,
-        short_description,
-        description,
-        technology,
-        applications,
-        research_direction,
-        image,
-        featured,
-        created_at,
-        updated_at
-    FROM technologies
-    ORDER BY created_at ASC
+  
+  cur.execute(""" 
+    SELECT 
+        id, 
+        title, 
+        slug, 
+        short_description, 
+        description, 
+        technology, 
+        applications, 
+        research_direction, 
+        image, 
+        featured, 
+        created_at, 
+        updated_at 
+    FROM technologies 
+    WHERE parent_id IS NULL
+    ORDER BY created_at ASC 
     LIMIT 4
 """)
 

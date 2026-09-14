@@ -1,0 +1,252 @@
+{% extends "base.html" %} {% block title %} {% if item %} MeharLabs | Edit
+Technology {% else %} MeharLabs | Add Technology {% endif %} {% endblock %} {%
+block content %}
+
+<section class="admin-dashboard">
+  <div class="container">
+    <div class="admin-header">
+      <div>
+        <p class="eyebrow">TECHNOLOGY MANAGEMENT</p>
+
+        <h1>
+          {% if item %} Edit Technology {% else %} Add Technology {% endif %}
+        </h1>
+      </div>
+
+      <div>
+        <a href="{{ url_for('admin.technology_list') }}" class="btn">
+          ← Back
+        </a>
+      </div>
+    </div>
+
+    <div class="admin-card">
+      <form method="POST" enctype="multipart/form-data">
+        <!-- PARENT -->
+
+        <div class="form-group">
+          <label for="parent_id"> Parent Technology </label>
+
+          <select name="parent_id" id="parent_id">
+            <option value="">No Parent — Main Technology</option>
+
+            {% for parent in parents %}
+
+            <option
+              value="{{ parent.id }}"
+              {%
+              if
+              item
+              and
+              item.parent_id=="parent.id"
+              %}
+              selected
+              {%
+              elif
+              not
+              item
+              and
+              selected_parent_id=="parent.id"
+              %}
+              selected
+              {%
+              endif
+              %}
+            >
+              {{ parent.title }}
+            </option>
+
+            {% endfor %}
+          </select>
+
+          <small>
+            No Parent = Main Technology. Select a technology to create a child
+            technology.
+          </small>
+        </div>
+
+        <!-- TITLE -->
+
+        <div class="form-group">
+          <label for="title"> Title * </label>
+
+          <input
+            type="text"
+            name="title"
+            id="title"
+            value="{{ item.title if item else '' }}"
+            placeholder="Example: MRI"
+            required
+          />
+        </div>
+
+        <!-- SLUG -->
+
+        <div class="form-group">
+          <label for="slug"> Slug </label>
+
+          <input
+            type="text"
+            name="slug"
+            id="slug"
+            value="{{ item.slug if item else '' }}"
+            placeholder="mri"
+          />
+
+          <small>
+            Leave empty while adding. Slug will be generated automatically.
+          </small>
+        </div>
+
+        <!-- SHORT DESCRIPTION -->
+
+        <div class="form-group">
+          <label for="short_description"> Short Description </label>
+
+          <textarea
+            name="short_description"
+            id="short_description"
+            rows="3"
+            placeholder="Short description..."
+          >
+{{ item.short_description if item else '' }}</textarea
+          >
+        </div>
+
+        <!-- DESCRIPTION -->
+
+        <div class="form-group">
+          <label for="description"> Description </label>
+
+          <textarea
+            name="description"
+            id="description"
+            rows="7"
+            placeholder="Detailed description..."
+          >
+{{ item.description if item else '' }}</textarea
+          >
+        </div>
+
+        <!-- TECHNOLOGY -->
+
+        <div class="form-group">
+          <label for="technology"> Technology </label>
+
+          <textarea
+            name="technology"
+            id="technology"
+            rows="5"
+            placeholder="Technology details..."
+          >
+{{ item.technology if item else '' }}</textarea
+          >
+        </div>
+
+        <!-- APPLICATIONS -->
+
+        <div class="form-group">
+          <label for="applications"> Applications </label>
+
+          <textarea
+            name="applications"
+            id="applications"
+            rows="5"
+            placeholder="Applications..."
+          >
+{{ item.applications if item else '' }}</textarea
+          >
+        </div>
+
+        <!-- RESEARCH -->
+
+        <div class="form-group">
+          <label for="research_direction"> Research Direction </label>
+
+          <textarea
+            name="research_direction"
+            id="research_direction"
+            rows="5"
+            placeholder="Research direction..."
+          >
+{{ item.research_direction if item else '' }}</textarea
+          >
+        </div>
+
+        <!-- IMAGE -->
+
+        <div class="form-group">
+          <label for="image"> Technology Image </label>
+
+          {% if item and item.image %}
+
+          <div style="margin-bottom: 15px">
+            <img
+              src="{{ url_for(
+                                    'static',
+                                    filename='uploads/technology/' + item.image
+                                ) }}"
+              alt="{{ item.title }}"
+              style="
+                width: 180px;
+                height: 110px;
+                object-fit: cover;
+                border-radius: 10px;
+              "
+            />
+          </div>
+
+          {% endif %}
+
+          <input
+            type="file"
+            name="image"
+            id="image"
+            accept=".png,.jpg,.jpeg,.webp"
+          />
+
+          <small> PNG, JPG, JPEG and WEBP only. </small>
+        </div>
+
+        <!-- FEATURED -->
+
+        <div class="form-group">
+          <label>
+            <input
+              type="checkbox"
+              name="featured"
+              value="1"
+              {%
+              if
+              item
+              and
+              item.featured
+              %}
+              checked
+              {%
+              endif
+              %}
+            />
+
+            Featured Technology
+          </label>
+        </div>
+
+        <!-- BUTTONS -->
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">
+            {% if item %} Update Technology {% else %} Add Technology {% endif
+            %}
+          </button>
+
+          <a href="{{ url_for('admin.technology_list') }}" class="btn">
+            Cancel
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

@@ -134,6 +134,225 @@
   </div>
 </section>
 
+{% if child_technologies %}
+
+<!--  
+     MEDICAL DIAGNOSTIC TECHNOLOGIES
+  -->
+
+<section class="medical-technologies">
+  <div class="container">
+    <div class="medical-header">
+      <p class="eyebrow">{{ technology.title }}</p>
+
+      <h2>Technologies Within {{ technology.title }}</h2>
+
+      <p>
+        Explore the specialized technologies and intelligent systems developed
+        within {{ technology.title }}.
+      </p>
+    </div>
+
+    <div class="medical-technology-grid">
+      {% for item in child_technologies %}
+
+      <article class="medical-tech-card">
+        <!-- NUMBER -->
+
+        <div class="medical-card-number">{{ "%02d"|format(loop.index) }}</div>
+
+        <!-- IMAGE -->
+
+        {% if item.image %}
+
+        <img
+          src="{{ url_for(
+          'static',
+          filename='uploads/technology/' ~ item.image
+      ) }}"
+          alt="{{ item.title }}"
+          class="medical-tech-image"
+        />
+
+        {% endif %}
+
+        <!-- TITLE -->
+
+        <h3>{{ item.title }}</h3>
+
+        <!-- DESCRIPTION -->
+
+        {% if item.short_description %}
+
+        <p>{{ item.short_description }}</p>
+
+        {% endif %}
+
+        <!-- TECHNOLOGY -->
+
+        {% if item.technology %}
+
+        <div class="medical-tech-info">
+          <strong>Technology</strong>
+
+          <span> {{ item.technology }} </span>
+        </div>
+
+        {% endif %}
+
+        <!-- APPLICATIONS -->
+
+        {% if item.applications %}
+
+        <div class="medical-tech-info">
+          <strong>Applications</strong>
+
+          <span> {{ item.applications }} </span>
+        </div>
+
+        {% endif %}
+
+        <!-- EXPLORE -->
+
+        <a
+          href="{{ url_for(
+          'technology.technology_detail',
+          slug=item.slug
+      ) }}"
+          class="text-link"
+        >
+          Explore {{ item.title }} →
+        </a>
+      </article>
+
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<style>
+  /*  
+   MEDICAL TECHNOLOGIES
+  */
+
+  .medical-technologies {
+    padding: 90px 0;
+  }
+
+  .medical-header {
+    max-width: 750px;
+    margin-bottom: 50px;
+  }
+
+  .medical-header h2 {
+    margin: 10px 0 15px;
+  }
+
+  .medical-header p {
+    line-height: 1.7;
+  }
+
+  .medical-technology-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 30px;
+  }
+
+  .medical-tech-card {
+    position: relative;
+    padding: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.02);
+    transition:
+      transform 0.3s ease,
+      border-color 0.3s ease;
+  }
+
+  .medical-tech-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .medical-card-number {
+    font-size: 13px;
+    letter-spacing: 2px;
+    opacity: 0.5;
+    margin-bottom: 18px;
+  }
+
+  .medical-tech-image {
+    width: 100%;
+    height: 230px;
+    object-fit: cover;
+    border-radius: 10px;
+    display: block;
+    margin-bottom: 25px;
+  }
+
+  .medical-tech-card h3 {
+    font-size: 28px;
+    margin-bottom: 12px;
+  }
+
+  .medical-tech-card p {
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+
+  .medical-tech-info {
+    margin-top: 18px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+  }
+
+  .medical-tech-info strong {
+    display: block;
+    font-size: 13px;
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+  }
+
+  .medical-tech-info span {
+    display: block;
+    line-height: 1.6;
+    opacity: 0.8;
+  }
+
+  .medical-tech-card .text-link {
+    display: inline-block;
+    margin-top: 25px;
+  }
+
+  /*  
+   MOBILE
+  */
+
+  @media (max-width: 768px) {
+    .medical-technologies {
+      padding: 60px 0;
+    }
+
+    .medical-technology-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .medical-tech-card {
+      padding: 22px;
+    }
+
+    .medical-tech-image {
+      height: 200px;
+    }
+
+    .medical-tech-card h3 {
+      font-size: 24px;
+    }
+  }
+</style>
+
+{% endif %}
+
 <!--  
      CTA
   -->
