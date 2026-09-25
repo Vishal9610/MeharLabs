@@ -1,6 +1,6 @@
-{% extends "base.html" %} {% block title %} {% if member %} MeharLabs | Edit
-Team Member {% else %} MeharLabs | Add Team Member {% endif %} {% endblock %} {%
-block content %}
+{% extends "base.html" %} {% block title %} {% if member %} ISIE | Edit Team
+Member {% else %} Intelligent Signal, Imaging & Emerging-tech Lab | Add Team
+Member {% endif %} {% endblock %} {% block content %}
 
 <section class="admin-dashboard">
   <div class="container">
@@ -13,7 +13,10 @@ block content %}
           %}
         </h1>
 
-        <p>Manage MeharLabs team information.</p>
+        <p>
+          Manage Intelligent Signal, Imaging & Emerging-tech Lab team
+          information.
+        </p>
       </div>
 
       <a href="{{ url_for('team.team_list') }}" class="btn secondary">
@@ -23,6 +26,8 @@ block content %}
 
     <div class="admin-card">
       <form method="POST" enctype="multipart/form-data">
+        <!-- NAME -->
+
         <div class="form-group">
           <label for="name">Name</label>
 
@@ -35,6 +40,8 @@ block content %}
           />
         </div>
 
+        <!-- DESIGNATION -->
+
         <div class="form-group">
           <label for="designation">Designation</label>
 
@@ -43,17 +50,211 @@ block content %}
             id="designation"
             name="designation"
             value="{% if member %}{{ member.designation or '' }}{% endif %}"
-            placeholder="Research Scientist"
+            placeholder="Professor / PhD Student / Developer"
           />
         </div>
+
+        <!-- TEAM PERIOD -->
+
+        <div class="form-group">
+          <label for="team_period">Team Period</label>
+
+          <select id="team_period" name="team_period" required>
+            <option
+              value="Present"
+              {%
+              if
+              not
+              member
+              or
+              member.team_period=="Present"
+              %}
+              selected
+              {%
+              endif
+              %}
+            >
+              Present
+            </option>
+
+            <option
+              value="Past"
+              {%
+              if
+              member
+              and
+              member.team_period=="Past"
+              %}
+              selected
+              {%
+              endif
+              %}
+            >
+              Past
+            </option>
+          </select>
+
+          <small>
+            Select whether this member is currently associated with the lab or
+            belongs to the past team.
+          </small>
+        </div>
+
+        <!-- CATEGORY -->
+
+        <div class="form-group">
+          <label for="category">Category</label>
+
+          <select id="category" name="category" required>
+            <option
+              value="Faculty"
+              {%
+              if
+              member
+              and
+              member.category=="Faculty"
+              %}
+              selected
+              {%
+              endif
+              %}
+            >
+              Faculty
+            </option>
+
+            <option
+              value="Lab Manager"
+              {%
+              if
+              member
+              and
+              member.category=="Lab Manager"
+              %}
+              selected
+              {%
+              endif
+              %}
+            >
+              Lab Manager
+            </option>
+
+            <option
+              value="Research Scholars & Ph.D Students"
+              {%
+              if
+              member
+              and
+              member.category=="Research Scholars & Ph.D Students"
+              %}
+              selected
+              {%
+              endif
+              %}
+            >
+              Research Scholars & Ph.D Students
+            </option>
+
+            <option
+              value="Project Staff"
+              {%
+              if
+              member
+              and
+              member.category=="Project Staff"
+              %}
+              selected
+              {%
+              endif
+              %}
+            >
+              Project Staff
+            </option>
+
+            <option
+              value="Administrative Staff"
+              {%
+              if
+              member
+              and
+              member.category=="Administrative Staff"
+              %}
+              selected
+              {%
+              endif
+              %}
+            >
+              Administrative Staff
+            </option>
+
+            <option
+              value="Interns"
+              {%
+              if
+              member
+              and
+              member.category=="Interns"
+              %}
+              selected
+              {%
+              endif
+              %}
+            >
+              Interns
+            </option>
+
+            <option
+              value="Other Students"
+              {%
+              if
+              member
+              and
+              member.category=="Other Students"
+              %}
+              selected
+              {%
+              endif
+              %}
+            >
+              Other Students
+            </option>
+
+            <option
+              value="Other"
+              {%
+              if
+              not
+              member
+              or
+              member.category=="Other"
+              %}
+              selected
+              {%
+              endif
+              %}
+            >
+              Other
+            </option>
+          </select>
+
+          <small> Select the member's role/category. </small>
+        </div>
+
+        <!-- BIO -->
 
         <div class="form-group">
           <label for="bio">Bio</label>
 
-          <textarea id="bio" name="bio" rows="7">
+          <textarea
+            id="bio"
+            name="bio"
+            rows="7"
+            placeholder="Research interests, role or short biography..."
+          >
 {% if member %}{{ member.bio or '' }}{% endif %}</textarea
           >
         </div>
+
+        <!-- SKILLS -->
 
         <div class="form-group">
           <label for="skills">Skills</label>
@@ -68,6 +269,8 @@ block content %}
           >
         </div>
 
+        <!-- EMAIL -->
+
         <div class="form-group">
           <label for="email">Email</label>
 
@@ -78,6 +281,8 @@ block content %}
             value="{% if member %}{{ member.email or '' }}{% endif %}"
           />
         </div>
+
+        <!-- LINKEDIN -->
 
         <div class="form-group">
           <label for="linkedin">LinkedIn URL</label>
@@ -91,6 +296,8 @@ block content %}
           />
         </div>
 
+        <!-- GITHUB -->
+
         <div class="form-group">
           <label for="github">GitHub URL</label>
 
@@ -103,6 +310,8 @@ block content %}
           />
         </div>
 
+        <!-- DISPLAY ORDER -->
+
         <div class="form-group">
           <label for="display_order">Display Order</label>
 
@@ -113,23 +322,61 @@ block content %}
             value="{% if member %}{{ member.display_order or 0 }}{% else %}0{% endif %}"
             min="0"
           />
+
+          <small> Lower numbers appear first within the category. </small>
         </div>
+
+        <!-- STATUS -->
 
         <div class="form-group">
           <label for="status">Status</label>
 
           <select id="status" name="status">
-            {% if member and member.status == "Active" %}
-            <option value="Active" selected>Active</option>
-            {% else %}
-            <option value="Active">Active</option>
-            {% endif %} {% if member and member.status == "Inactive" %}
-            <option value="Inactive" selected>Inactive</option>
-            {% else %}
-            <option value="Inactive">Inactive</option>
-            {% endif %}
+            <option
+              value="Active"
+              {%
+              if
+              not
+              member
+              or
+              member.status=="1"
+              or
+              member.status=="1"
+              or
+              member.status=="Active"
+              %}
+              selected
+              {%
+              endif
+              %}
+            >
+              Active
+            </option>
+
+            <option
+              value="Inactive"
+              {%
+              if
+              member
+              and
+              (member.status=="0"
+              or
+              member.status=="0"
+              or
+              member.status=="Inactive"
+              )
+              %}
+              selected
+              {%
+              endif
+              %}
+            >
+              Inactive
+            </option>
           </select>
         </div>
+
+        <!-- CURRENT PHOTO -->
 
         {% if member and member.photo %}
 
@@ -139,7 +386,10 @@ block content %}
           <br />
 
           <img
-            src="{{ url_for('static', filename='uploads/team/' ~ member.photo) }}"
+            src="{{ url_for(
+              'static',
+              filename='uploads/team/' ~ member.photo
+            ) }}"
             alt="{{ member.name }}"
             style="
               width: 120px;
@@ -151,6 +401,8 @@ block content %}
         </div>
 
         {% endif %}
+
+        <!-- PHOTO -->
 
         <div class="form-group">
           <label for="photo">
@@ -164,6 +416,8 @@ block content %}
             accept=".jpg,.jpeg,.png,.webp"
           />
         </div>
+
+        <!-- ACTIONS -->
 
         <div class="form-actions">
           <a href="{{ url_for('team.team_list') }}" class="btn secondary">

@@ -1,4 +1,4 @@
-{% extends "base.html" %} {% block title %} {{ research.title }} | MeharLabs {%
+{% extends "base.html" %} {% block title %} {{ research.title }} | ISIE {%
 endblock %} {% block content %}
 
 <section class="page-header">
@@ -71,16 +71,19 @@ endblock %} {% block content %}
 
 <section class="cta">
   <div class="container">
-    <p class="eyebrow">MEHARLABS RESEARCH</p>
+    <p class="eyebrow">
+      Intelligent Signal, Imaging & Emerging-tech Lab RESEARCH
+    </p>
 
     <h2>Interested in this research?</h2>
 
     <p>
-      Collaborate with MeharLabs on emerging technologies and research
-      initiatives.
+      Collaborate with ISIE on emerging technologies and research initiatives.
     </p>
 
-    <a href="#" class="btn primary"> Contact MeharLabs </a>
+    <a href="{{ url_for('contact.contact') }}" class="btn primary">
+      Contact ISIE Lab
+    </a>
   </div>
 </section>
 

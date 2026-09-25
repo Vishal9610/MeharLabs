@@ -1,5 +1,6 @@
-{% extends "base.html" %} {% block title %} {% if item %} MeharLabs | Edit News
-{% else %} MeharLabs | Add News {% endif %} {% endblock %} {% block content %}
+{% extends "base.html" %} {% block title %} {% if item %} ISIE | Edit News {%
+else %} Intelligent Signal, Imaging & Emerging-tech Lab | Add News {% endif %}
+{% endblock %} {% block content %}
 
 <section class="admin-dashboard">
   <div class="container">
@@ -9,7 +10,7 @@
 
         <h1>{% if item %} Edit News {% else %} Add News {% endif %}</h1>
 
-        <p>Manage MeharLabs news and announcements.</p>
+        <p>Manage ISIE Lab news and announcements.</p>
       </div>
 
       <a href="{{ url_for('news.news_list') }}" class="btn secondary">

@@ -1,5 +1,5 @@
-{% extends "base.html" %} {% block title %} MeharLabs | Analytics {% endblock %}
-{% block content %}
+{% extends "base.html" %} {% block title %} ISIE | Analytics {% endblock %} {%
+block content %}
 
 <section class="admin-dashboard analytics-page">
   <div class="container">
@@ -378,17 +378,15 @@
         yearGroup.style.display = "none";
         monthGroup.style.display = "none";
       } else if (period === "year") {
-
-      /*
-       * YEAR
-       */
+        /*
+         * YEAR
+         */
         yearGroup.style.display = "flex";
         monthGroup.style.display = "none";
       } else if (period === "month") {
-
-      /*
-       * MONTH
-       */
+        /*
+         * MONTH
+         */
         yearGroup.style.display = "flex";
         monthGroup.style.display = "flex";
       }

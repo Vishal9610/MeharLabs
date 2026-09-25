@@ -1,9 +1,9 @@
-{% extends "base.html" %} {% block title %} MeharLabs | Team {% endblock %} {%
-block content %}
+{% extends "base.html" %} {% block title %} ISIE | Team {% endblock %} {% block
+content %}
 
 <section class="page-header">
   <div class="container">
-    <p class="eyebrow">MEHARLABS TEAM</p>
+    <p class="eyebrow">Intelligent Signal, Imaging & Emerging-tech Lab TEAM</p>
 
     <h1>Our Team</h1>
 
@@ -18,59 +18,213 @@ block content %}
   <div class="container">
     {% if members %}
 
-    <div class="team-grid">
-      {% for member in members %}
+    <!--  
+         PRESENT TEAM
+     = -->
 
-      <article class="team-card">
-        {% if member.photo %}
-        <div class="image-container">
-          <img
-            src="{{ url_for('static', filename='uploads/team/' ~ member.photo) }}"
-            alt="{{ member.name }}"
-            class="team-photo"
-          />
-        </div>
+    <div class="team-period-section">
+      <div class="team-period-header">
+        <h2 class="presentam-team eyebrow">Present Team & Students</h2>
 
-        {% else %}
+        <p>Our current researchers, students and innovators.</p>
+      </div>
 
-        <div class="team-photo team-photo-placeholder">
-          {{ member.name[0] }}
-        </div>
+      <hr />
 
-        {% endif %}
+      {% set present_members = members | selectattr("team_period", "equalto",
+      "Present") | list %} {% if present_members %} {# Get unique categories
+      while keeping category_order #} {% set categories = [] %} {% for member in
+      present_members %} {% if member.category not in categories %} {% set _ =
+      categories.append(member.category) %} {% endif %} {% endfor %} {# Sort
+      categories according to category_order #} {% for category in categories |
+      sort(attribute="category_order") %}
 
-        <div class="team-info">
-          <h2>{{ member.name }}</h2>
+      <div class="team-category">
+        <h2 class="team-category-title">{{ category }}</h2>
 
-          {% if member.designation %}
-          <p class="team-designation">{{ member.designation }}</p>
-          {% endif %} {% if member.bio %}
-          <p>{{ member.bio }}</p>
-          {% endif %}
+        <div class="team-grid">
+          {% for member in present_members %} {% if member.category == category
+          %}
 
-          <div class="team-links">
-            {% if member.linkedin %}
-            <a href="{{ member.linkedin }}" target="_blank" rel="noopener">
-              LinkedIn
-            </a>
-            {% endif %} {% if member.github %}
-            <a href="{{ member.github }}" target="_blank" rel="noopener">
-              GitHub
-            </a>
-            {% endif %} {% if member.email %}
-            <a href="mailto:{{ member.email }}"> Email </a>
+          <article class="team-card">
+            {% if member.photo %}
+
+            <div class="image-container">
+              <img
+                src="{{ url_for(
+                            'static',
+                            filename='uploads/team/' ~ member.photo
+                          ) }}"
+                alt="{{ member.name }}"
+                class="team-photo"
+              />
+            </div>
+
+            {% else %}
+
+            <div class="team-photo team-photo-placeholder">
+              {{ member.name[0] }}
+            </div>
+
             {% endif %}
-          </div>
-        </div>
-      </article>
 
-      {% endfor %}
+            <div class="team-info">
+              <h2>{{ member.name }}</h2>
+
+              {% if member.designation %}
+
+              <p class="team-designation">{{ member.designation }}</p>
+
+              {% endif %} {% if member.bio %}
+
+              <p>{{ member.bio }}</p>
+
+              {% endif %} {% if member.skills %}
+
+              <p class="team-skills">{{ member.skills }}</p>
+
+              {% endif %}
+
+              <div class="team-links">
+                {% if member.linkedin %}
+
+                <a href="{{ member.linkedin }}" target="_blank" rel="noopener">
+                  in
+                </a>
+
+                {% endif %} {% if member.github %}
+
+                <a href="{{ member.github }}" target="_blank" rel="noopener">
+                  Git
+                </a>
+
+                {% endif %} {% if member.email %}
+
+                <a href="mailto:{{ member.email }}"> Mail </a>
+
+                {% endif %}
+              </div>
+            </div>
+          </article>
+
+          {% endif %} {% endfor %}
+        </div>
+      </div>
+
+      {% endfor %} {% else %}
+
+      <p class="empty-state">No present team members available.</p>
+
+      {% endif %}
+    </div>
+
+    <!--  
+         PAST TEAM
+     = -->
+
+    <div class="team-period-section past-team-section">
+      <div class="team-period-header">
+        <h2 class="past-team eyebrow">Past Team & Students</h2>
+
+        <p>
+          Researchers, students and innovators who were previously associated
+          with the lab.
+        </p>
+      </div>
+
+      <hr />
+
+      {% set past_members = members | selectattr("team_period", "equalto",
+      "Past") | list %} {% if past_members %} {# Get unique categories while
+      keeping category_order #} {% set categories = [] %} {% for member in
+      past_members %} {% if member.category not in categories %} {% set _ =
+      categories.append(member.category) %} {% endif %} {% endfor %} {# Sort
+      categories according to category_order #} {% for category in categories |
+      sort(attribute="category_order") %}
+
+      <div class="team-category">
+        <h2 class="team-category-title">{{ category }}</h2>
+
+        <div class="team-grid">
+          {% for member in past_members %} {% if member.category == category %}
+
+          <article class="team-card">
+            {% if member.photo %}
+
+            <div class="image-container">
+              <img
+                src="{{ url_for(
+                            'static',
+                            filename='uploads/team/' ~ member.photo
+                          ) }}"
+                alt="{{ member.name }}"
+                class="team-photo"
+              />
+            </div>
+
+            {% else %}
+
+            <div class="team-photo team-photo-placeholder">
+              {{ member.name[0] }}
+            </div>
+
+            {% endif %}
+
+            <div class="team-info">
+              <h2>{{ member.name }}</h2>
+
+              {% if member.designation %}
+
+              <p class="team-designation">{{ member.designation }}</p>
+
+              {% endif %} {% if member.bio %}
+
+              <p>{{ member.bio }}</p>
+
+              {% endif %} {% if member.skills %}
+
+              <p class="team-skills">{{ member.skills }}</p>
+
+              {% endif %}
+
+              <div class="team-links">
+                {% if member.linkedin %}
+
+                <a href="{{ member.linkedin }}" target="_blank" rel="noopener">
+                  in
+                </a>
+
+                {% endif %} {% if member.github %}
+
+                <a href="{{ member.github }}" target="_blank" rel="noopener">
+                  Git
+                </a>
+
+                {% endif %} {% if member.email %}
+
+                <a href="mailto:{{ member.email }}"> Mail </a>
+
+                {% endif %}
+              </div>
+            </div>
+          </article>
+
+          {% endif %} {% endfor %}
+        </div>
+      </div>
+
+      {% endfor %} {% else %}
+
+      <p class="empty-state">No past team members available.</p>
+
+      {% endif %}
     </div>
 
     {% else %}
 
     <div class="empty-state">
       <h2>Our Team</h2>
+
       <p>Team information will be available soon.</p>
     </div>
 
@@ -91,6 +245,80 @@ block content %}
     max-height: 450px;
     object-fit: cover;
     display: block;
+  }
+
+  .team-links {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 25px;
+  }
+  
+  .team-designation{
+    color: #36d9ff;
+    font-weight:600;
+  }
+
+  .team-links a {
+    margin-right: 10px;
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(36, 32, 32, 1);
+
+    border-radius: 50%;
+
+    color: #7b9595;
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    transition: 0.25s ease;
+  }
+
+  .team-links a:hover {
+    background: #36d9ff;
+
+    color: #071016;
+
+    border-color: #36d9ff;
+
+    transform: translateY(-3px);
+  }
+
+  .team-period-section {
+    margin-bottom: 70px;
+  }
+
+  .team-period-header {
+    text-align: center;
+    margin-bottom: 35px;
+  }
+
+  .team-category {
+    margin-bottom: 45px;
+    margin-top: 20px;
+  }
+
+  .team-skills {
+    white-space: wrap;
+  }
+
+  .team-category-title {
+    text-align: center;
+    font-weight: 900;
+    margin-bottom: 25px;
+  }
+
+  .past-team-section {
+    margin-top: 80px;
   }
 </style>
 

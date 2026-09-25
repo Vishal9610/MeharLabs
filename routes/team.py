@@ -1,3 +1,4 @@
+
 from flask import (
     Blueprint,
     render_template,
@@ -24,6 +25,10 @@ team_bp = Blueprint(
 )
 
 
+  
+# ALLOWED IMAGE EXTENSIONS
+  
+
 ALLOWED_IMAGE_EXTENSIONS = {
     "png",
     "jpg",
@@ -41,9 +46,9 @@ def allowed_image(filename):
     )
 
 
- 
+  
 # TEAM LIST
- 
+  
 
 @team_bp.route("/")
 @admin_required
@@ -56,7 +61,11 @@ def team_list():
     cur.execute("""
         SELECT *
         FROM team
-        ORDER BY display_order ASC, id ASC
+        ORDER BY
+            FIELD(team_period, 'Present', 'Past'),
+            category ASC,
+            display_order ASC,
+            id ASC
     """)
 
     members = cur.fetchall()
@@ -69,9 +78,9 @@ def team_list():
     )
 
 
- 
+  
 # ADD TEAM MEMBER
- 
+  
 
 @team_bp.route(
     "/add",
@@ -81,6 +90,10 @@ def team_list():
 def add_member():
 
     if request.method == "POST":
+
+          
+        # BASIC INFORMATION
+          
 
         name = request.form.get(
             "name",
@@ -92,15 +105,46 @@ def add_member():
             ""
         ).strip()
 
+          
+        # TEAM PERIOD
+        # Present / Past
+          
+
+        team_period = request.form.get(
+            "team_period",
+            "Present"
+        ).strip()
+
+          
+        # CATEGORY
+          
+
+        category = request.form.get(
+            "category",
+            "Other"
+        ).strip()
+
+          
+        # BIO
+          
+
         bio = request.form.get(
             "bio",
             ""
         ).strip()
 
+          
+        # SKILLS
+          
+
         skills = request.form.get(
             "skills",
             ""
         ).strip()
+
+          
+        # CONTACT / SOCIAL
+          
 
         linkedin = request.form.get(
             "linkedin",
@@ -117,15 +161,41 @@ def add_member():
             ""
         ).strip()
 
-        display_order = request.form.get(
-            "display_order",
-            0
-        )
+          
+        # DISPLAY ORDER
+          
 
-        status = request.form.get(
+        try:
+            display_order = int(
+                request.form.get(
+                    "display_order",
+                    0
+                )
+            )
+        except (TypeError, ValueError):
+
+            display_order = 0
+
+          
+        # STATUS
+        # Database: tinyint(1)
+        # Active = 1
+        # Inactive = 0
+          
+
+        status_value = request.form.get(
             "status",
-            "Active"
+            "1"
         ).strip()
+
+        if status_value in ("1", "Active", "active"):
+            status = 1
+        else:
+            status = 0
+
+          
+        # VALIDATION
+          
 
         if not name:
 
@@ -138,7 +208,20 @@ def add_member():
                 url_for("team.add_member")
             )
 
-        # IMAGE
+          
+        # VALIDATE TEAM PERIOD
+          
+
+        if team_period not in (
+            "Present",
+            "Past"
+        ):
+
+            team_period = "Present"
+
+          
+        # IMAGE UPLOAD
+          
 
         photo_filename = None
 
@@ -183,6 +266,10 @@ def add_member():
                 )
             )
 
+          
+        # INSERT
+          
+
         cur = mysql.connection.cursor()
 
         cur.execute("""
@@ -190,6 +277,8 @@ def add_member():
             (
                 name,
                 designation,
+                team_period,
+                category,
                 bio,
                 skills,
                 photo,
@@ -201,12 +290,14 @@ def add_member():
             )
             VALUES
             (
-                %s, %s, %s, %s, %s,
-                %s, %s, %s, %s, %s
+                %s, %s, %s, %s, %s, %s,
+                %s, %s, %s, %s, %s, %s
             )
         """, (
             name,
             designation,
+            team_period,
+            category,
             bio,
             skills,
             photo_filename,
@@ -230,15 +321,19 @@ def add_member():
             url_for("team.team_list")
         )
 
+      
+    # GET
+      
+
     return render_template(
         "admin/team/form.html",
         member=None
     )
 
 
- 
+  
 # EDIT TEAM MEMBER
- 
+  
 
 @team_bp.route(
     "/edit/<int:id>",
@@ -250,6 +345,10 @@ def edit_member(id):
     cur = mysql.connection.cursor(
         MySQLdb.cursors.DictCursor
     )
+
+      
+    # GET EXISTING MEMBER
+      
 
     cur.execute("""
         SELECT *
@@ -272,7 +371,15 @@ def edit_member(id):
             url_for("team.team_list")
         )
 
+      
+    # POST
+      
+
     if request.method == "POST":
+
+          
+        # BASIC INFORMATION
+          
 
         name = request.form.get(
             "name",
@@ -284,15 +391,45 @@ def edit_member(id):
             ""
         ).strip()
 
+          
+        # TEAM PERIOD
+          
+
+        team_period = request.form.get(
+            "team_period",
+            "Present"
+        ).strip()
+
+          
+        # CATEGORY
+          
+
+        category = request.form.get(
+            "category",
+            "Other"
+        ).strip()
+
+          
+        # BIO
+          
+
         bio = request.form.get(
             "bio",
             ""
         ).strip()
 
+          
+        # SKILLS
+          
+
         skills = request.form.get(
             "skills",
             ""
         ).strip()
+
+          
+        # CONTACT / SOCIAL
+          
 
         linkedin = request.form.get(
             "linkedin",
@@ -309,15 +446,46 @@ def edit_member(id):
             ""
         ).strip()
 
-        display_order = request.form.get(
-            "display_order",
-            0
-        )
+          
+        # DISPLAY ORDER
+          
 
-        status = request.form.get(
+        try:
+            display_order = int(
+                request.form.get(
+                    "display_order",
+                    0
+                )
+            )
+        except (TypeError, ValueError):
+
+            display_order = 0
+
+          
+        # STATUS
+        # tinyint(1)
+          
+
+        status_value = request.form.get(
             "status",
-            "Active"
+            "1"
         ).strip()
+
+        if status_value in (
+            "1",
+            "Active",
+            "active"
+        ):
+
+            status = 1
+
+        else:
+
+            status = 0
+
+          
+        # VALIDATION
+          
 
         if not name:
 
@@ -335,11 +503,30 @@ def edit_member(id):
                 )
             )
 
+          
+        # VALIDATE TEAM PERIOD
+          
+
+        if team_period not in (
+            "Present",
+            "Past"
+        ):
+
+            team_period = "Present"
+
+          
+        # EXISTING PHOTO
+          
+
         photo_filename = member["photo"]
 
         uploaded_photo = request.files.get(
             "photo"
         )
+
+          
+        # NEW PHOTO
+          
 
         if uploaded_photo and uploaded_photo.filename:
 
@@ -376,6 +563,10 @@ def edit_member(id):
                 exist_ok=True
             )
 
+              
+            # DELETE OLD PHOTO
+              
+
             if photo_filename:
 
                 old_path = os.path.join(
@@ -387,6 +578,10 @@ def edit_member(id):
 
                     os.remove(old_path)
 
+              
+            # SAVE NEW PHOTO
+              
+
             uploaded_photo.save(
                 os.path.join(
                     upload_folder,
@@ -396,11 +591,17 @@ def edit_member(id):
 
             photo_filename = new_filename
 
+          
+        # UPDATE
+          
+
         cur.execute("""
             UPDATE team
             SET
                 name = %s,
                 designation = %s,
+                team_period = %s,
+                category = %s,
                 bio = %s,
                 skills = %s,
                 photo = %s,
@@ -413,6 +614,8 @@ def edit_member(id):
         """, (
             name,
             designation,
+            team_period,
+            category,
             bio,
             skills,
             photo_filename,
@@ -437,6 +640,10 @@ def edit_member(id):
             url_for("team.team_list")
         )
 
+      
+    # GET
+      
+
     cur.close()
 
     return render_template(
@@ -445,9 +652,9 @@ def edit_member(id):
     )
 
 
- 
+  
 # DELETE TEAM MEMBER
- 
+  
 
 @team_bp.route(
     "/delete/<int:id>",
@@ -459,6 +666,10 @@ def delete_member(id):
     cur = mysql.connection.cursor(
         MySQLdb.cursors.DictCursor
     )
+
+      
+    # GET PHOTO
+      
 
     cur.execute("""
         SELECT photo
@@ -481,6 +692,10 @@ def delete_member(id):
             url_for("team.team_list")
         )
 
+      
+    # DELETE DATABASE RECORD
+      
+
     cur.execute("""
         DELETE FROM team
         WHERE id = %s
@@ -489,6 +704,10 @@ def delete_member(id):
     mysql.connection.commit()
 
     cur.close()
+
+      
+    # DELETE PHOTO
+      
 
     if member["photo"]:
 
@@ -511,3 +730,4 @@ def delete_member(id):
     return redirect(
         url_for("team.team_list")
     )
+  

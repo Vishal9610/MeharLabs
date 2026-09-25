@@ -1,15 +1,17 @@
- {% block content %}
+{% block content %}
 <link
-    rel="stylesheet"
-    href="{{ url_for('static', filename='css/admin.css') }}"
->
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/admin.css') }}"
+/>
 <section class="admin-login">
   <div class="admin-login-box">
-    <p class="eyebrow">MEHARLABS ADMIN</p>
+    <p class="eyebrow">ISIE ADMIN</p>
 
     <h1>Admin Login</h1>
 
-    <p>Sign in to manage MeharLabs content.</p>
+    <p>
+      Sign in to manage Intelligent Signal, Imaging & Emerging-tech Lab content.
+    </p>
 
     {% with messages = get_flashed_messages( with_categories=true ) %} {% if
     messages %} {% for category, message in messages %}

@@ -1,18 +1,34 @@
 <!doctype html>
-
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>{% block title %}MeharLabs{% endblock %}</title>
+    <title>{% block title %}ISIE Lab{% endblock %}</title>
 
+    <!--   
+         PREVENT THEME FLASH
+       -->
+    <script>
+      (function () {
+        const savedTheme = localStorage.getItem("isie-theme");
+
+        if (savedTheme === "dark") {
+          document.documentElement.setAttribute("data-theme", "dark");
+        } else {
+          document.documentElement.setAttribute("data-theme", "light");
+        }
+      })();
+    </script>
+
+    <!-- Main CSS -->
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/main.css') }}"
     />
 
+    <!-- Admin CSS -->
     {% if request.path.startswith('/admin') %}
     <link
       rel="stylesheet"
@@ -20,53 +36,33 @@
     />
     {% endif %}
   </head>
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const menuButton = document.querySelector(".mobile-menu-toggle");
-      const nav = document.querySelector(".navbar nav");
-
-      if (!menuButton || !nav) {
-        return;
-      }
-
-      menuButton.addEventListener("click", function () {
-        nav.classList.toggle("mobile-nav-open");
-
-        if (nav.classList.contains("mobile-nav-open")) {
-          menuButton.innerHTML = "✕";
-          menuButton.setAttribute("aria-label", "Close menu");
-        } else {
-          menuButton.innerHTML = "☰";
-          menuButton.setAttribute("aria-label", "Open menu");
-        }
-      });
-
-      /* Close menu after clicking a link */
-
-      nav.querySelectorAll("a").forEach(function (link) {
-        link.addEventListener("click", function () {
-          nav.classList.remove("mobile-nav-open");
-
-          menuButton.innerHTML = "☰";
-          menuButton.setAttribute("aria-label", "Open menu");
-        });
-      });
-    });
-  </script>
 
   <body>
-    <!--  NAVBAR  -->
+    <!--     
+         NAVBAR
+         -->
 
     <header class="navbar">
       <div class="container navbar-content">
+        <!-- LOGO -->
         <a href="{{ url_for('home.home') }}" class="logo">
-          MEHAR<span>LABS</span>
+          ISIE<span> LAB</span>
+
+          <div class="tooltip-text">
+            <span>
+              ISIE Lab — Intelligent Signal, Imaging & Emerging-tech Lab
+            </span>
+          </div>
         </a>
+
+        <!-- MOBILE MENU -->
         <button class="mobile-menu-toggle" type="button" aria-label="Open menu">
           ☰
         </button>
+
+        <!-- NAVIGATION -->
         <nav>
-          <a href="{{ url_for('home.home') }}">Home</a>
+          <a href="{{ url_for('home.home') }}"> Home </a>
 
           <a href="{{ url_for('technology.technology_list') }}"> Technology </a>
 
@@ -78,7 +74,14 @@
             Publications
           </a>
 
-          <a href="{{ url_for('team_public.team') }}"> Team </a>
+          <a href="{{ url_for('team_public.team') }}" class="team-student">
+            Team
+            <div class="drop-item">
+              <p class="dropdown-item">Current</p>
+
+              <p class="dropdown-item">Alumni</p>
+            </div>
+          </a>
 
           <a href="{{ url_for('news_public.news_list') }}"> News </a>
 
@@ -86,31 +89,76 @@
 
           <a href="{{ url_for('contact.contact') }}"> Contact </a>
         </nav>
+
+        <!--   
+             PREMIUM THEME TOGGLE
+          = -->
+
+        <button
+          class="theme-toggle"
+          id="themeToggle"
+          type="button"
+          aria-label="Switch to dark mode"
+          title="Switch to dark mode"
+        >
+          <span class="theme-icon" id="themeIcon">
+            <!-- SUN -->
+            <svg class="sun-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="4"></circle>
+
+              <path d="M12 2v2"></path>
+              <path d="M12 20v2"></path>
+
+              <path d="m4.93 4.93 1.41 1.41"></path>
+              <path d="m17.66 17.66 1.41 1.41"></path>
+
+              <path d="M2 12h2"></path>
+              <path d="M20 12h2"></path>
+
+              <path d="m6.34 17.66-1.41 1.41"></path>
+              <path d="m19.07 4.93-1.41 1.41"></path>
+            </svg>
+
+            <!-- MOON -->
+            <svg class="moon-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M21 12.79A9 9 0 1 1 11.21 3
+                7 7 0 0 0 21 12.79z"
+              ></path>
+            </svg>
+          </span>
+        </button>
       </div>
     </header>
 
-    <!--  MAIN CONTENT  -->
+    <!--     
+         MAIN CONTENT
+       -->
 
     <main>{% block content %} {% endblock %}</main>
 
-    <!--  FOOTER  -->
+    <!--   
+         FOOTER
+       -->
 
     <footer class="site-footer">
       <div class="container">
-        <!-- Footer Main -->
+        <!-- FOOTER MAIN -->
 
         <div class="footer-grid">
-          <!-- About -->
+          <!-- ABOUT -->
 
           <div class="footer-column footer-about">
             <a href="{{ url_for('home.home') }}" class="footer-logo">
-              MEHAR<span>LABS</span>
+              Intelligent Signal, Imaging & Emerging-tech
+              <span>Lab</span>
             </a>
 
             <p>
-              MeharLabs is a deep-tech research and innovation initiative
-              exploring Artificial Intelligence, Medical Diagnostics, Underwater
-              Intelligence and Quantum Computing.
+              Intelligent Signal, Imaging & Emerging-tech Lab is a deep-tech
+              research and innovation initiative exploring Artificial
+              Intelligence, Medical Diagnostics, Underwater Intelligence and
+              Quantum Computing.
             </p>
 
             <div class="footer-social">
@@ -119,10 +167,14 @@
               <a href="#" aria-label="LinkedIn" title="LinkedIn"> in </a>
 
               <a href="#" aria-label="GitHub" title="GitHub"> Git </a>
+
+              <a href="#" aria-label="GitHub" title="Instagram"> inst </a>
+
+              <a href="#" aria-label="GitHub" title="Youtube"> yt </a>
             </div>
           </div>
 
-          <!-- Explore -->
+          <!-- EXPLORE -->
 
           <div class="footer-column">
             <h3>Explore</h3>
@@ -151,23 +203,17 @@
               </li>
 
               <li>
-                <a href="{{ url_for('news_public.news_list') }}"> News </a>
+                <a href="{{ url_for('team_public.team') }}"> Team </a>
               </li>
             </ul>
           </div>
 
-          <!-- Research & Innovation -->
+          <!-- OUR FOCUS -->
 
           <div class="footer-column">
             <h3>Our Focus</h3>
 
             <ul>
-              <li>
-                <a href="{{ url_for('technology.technology_list') }}">
-                  AI & Machine Learning
-                </a>
-              </li>
-
               <li>
                 <a href="{{ url_for('technology.technology_list') }}">
                   Medical Diagnostics
@@ -200,7 +246,7 @@
             </ul>
           </div>
 
-          <!-- Contact -->
+          <!-- CONTACT -->
 
           <div class="footer-column">
             <h3>Get In Touch</h3>
@@ -212,21 +258,21 @@
 
             <ul class="footer-contact">
               <li>
-                <span class="contact-icon">@</span>
+                <span class="contact-icon"> @ </span>
 
-                <a href="mailto:info@meharlabs.com">
+                <a href="mailto:info@isie.com">
                   maggarwal@care.iitd.ernet.in
                 </a>
               </li>
 
               <li>
-                <span class="contact-icon">+</span>
+                <span class="contact-icon"> + </span>
 
-                <a href="tel:+910000000000"> +91-11-26591113</a>
+                <a href="tel:+910000000000"> +91-11-26591113 </a>
               </li>
 
               <li>
-                <span class="contact-icon">⌖</span>
+                <span class="contact-icon"> ⌖ </span>
 
                 <span> India </span>
               </li>
@@ -241,29 +287,15 @@
           </div>
         </div>
 
-        <!-- Footer CTA -->
-
-        <div class="footer-cta">
-          <div>
-            <p class="eyebrow">COLLABORATE WITH US</p>
-
-            <h2>Build the Future With MeharLabs</h2>
-
-            <p>
-              Join us in exploring intelligent technologies and turning
-              ambitious research ideas into real-world innovation.
-            </p>
-          </div>
-
-          <a href="{{ url_for('contact.contact') }}" class="btn">
-            Start a Conversation →
-          </a>
-        </div>
-
-        <!-- Footer Bottom -->
+        <!--   
+             FOOTER BOTTOM
+           -->
 
         <div class="footer-bottom">
-          <p>© 2026 MeharLabs. All Rights Reserved.</p>
+          <p>
+            © 2026 Intelligent Signal, Imaging & Emerging-tech Lab. All Rights
+            Reserved.
+          </p>
 
           <div class="footer-bottom-links">
             <a href="#"> Privacy Policy </a>
@@ -279,5 +311,93 @@
         </div>
       </div>
     </footer>
+
+    <!--   
+         JAVASCRIPT
+       -->
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        /*   
+             MOBILE MENU
+             */
+
+        const menuButton = document.querySelector(".mobile-menu-toggle");
+
+        const nav = document.querySelector(".navbar nav");
+
+        if (menuButton && nav) {
+          menuButton.addEventListener("click", function () {
+            nav.classList.toggle("mobile-nav-open");
+
+            if (nav.classList.contains("mobile-nav-open")) {
+              menuButton.innerHTML = "✕";
+
+              menuButton.setAttribute("aria-label", "Close menu");
+            } else {
+              menuButton.innerHTML = "☰";
+
+              menuButton.setAttribute("aria-label", "Open menu");
+            }
+          });
+
+          /* CLOSE MOBILE MENU */
+
+          nav.querySelectorAll("a").forEach(function (link) {
+            link.addEventListener("click", function () {
+              nav.classList.remove("mobile-nav-open");
+
+              menuButton.innerHTML = "☰";
+
+              menuButton.setAttribute("aria-label", "Open menu");
+            });
+          });
+        }
+
+        /*   
+             LIGHT / DARK MODE
+             */
+
+        const themeToggle = document.getElementById("themeToggle");
+
+        const themeIcon = document.getElementById("themeIcon");
+
+        function updateThemeButton() {
+          const currentTheme =
+            document.documentElement.getAttribute("data-theme");
+
+          if (currentTheme === "dark") {
+            themeToggle.setAttribute("aria-label", "Switch to light mode");
+
+            themeToggle.setAttribute("title", "Switch to light mode");
+          } else {
+            themeToggle.setAttribute("aria-label", "Switch to dark mode");
+
+            themeToggle.setAttribute("title", "Switch to dark mode");
+          }
+        }
+
+        if (themeToggle) {
+          updateThemeButton();
+
+          themeToggle.addEventListener("click", function () {
+            const currentTheme =
+              document.documentElement.getAttribute("data-theme");
+
+            if (currentTheme === "dark") {
+              document.documentElement.setAttribute("data-theme", "light");
+
+              localStorage.setItem("isie-theme", "light");
+            } else {
+              document.documentElement.setAttribute("data-theme", "dark");
+
+              localStorage.setItem("isie-theme", "dark");
+            }
+
+            updateThemeButton();
+          });
+        }
+      });
+    </script>
   </body>
 </html>

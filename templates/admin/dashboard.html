@@ -1,4 +1,4 @@
-html {% extends "base.html" %} {% block title %} MeharLabs | Admin Dashboard {%
+html {% extends "base.html" %} {% block title %} ISIE | Admin Dashboard {%
 endblock %} {% block content %}
 
 <section class="admin-dashboard">
@@ -9,7 +9,10 @@ endblock %} {% block content %}
 
         <h1>Dashboard</h1>
 
-        <p>Manage MeharLabs content and research.</p>
+        <p>
+          Manage Intelligent Signal, Imaging & Emerging-tech Lab content and
+          research.
+        </p>
       </div>
 
       <a href="{{ url_for('admin.logout') }}" class="btn secondary"> Logout </a>
@@ -66,7 +69,9 @@ endblock %} {% block content %}
 
         <h2>Team</h2>
 
-        <p>Manage MeharLabs team members.</p>
+        <p>
+          Manage Intelligent Signal, Imaging & Emerging-tech Lab team members.
+        </p>
       </a>
 
       <!-- NEWS -->
@@ -96,7 +101,10 @@ endblock %} {% block content %}
 
         <h2>About</h2>
 
-        <p>Manage MeharLabs About information.</p>
+        <p>
+          Manage Intelligent Signal, Imaging & Emerging-tech Lab About
+          information.
+        </p>
       </a>
 
       <!-- ANALYTICS -->
@@ -104,7 +112,7 @@ endblock %} {% block content %}
       <a href="{{ url_for('analytics.dashboard') }}" class="admin-card">
         <span class="admin-number"> 09 </span>
 
-        <h2>Alalytics</h2>
+        <h2>Analytics</h2>
 
         <p>View website traffic, page views, monthly and yearly analytics.</p>
       </a>

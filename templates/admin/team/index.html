@@ -1,5 +1,5 @@
-{% extends "base.html" %} {% block title %} MeharLabs | Manage Team {% endblock
-%} {% block content %}
+{% extends "base.html" %} {% block title %} ISIE | Manage Team {% endblock %} {%
+block content %}
 
 <section class="admin-dashboard">
   <div class="container">
@@ -9,7 +9,9 @@
 
         <h1>Team</h1>
 
-        <p>Manage MeharLabs team members.</p>
+        <p>
+          Manage Intelligent Signal, Imaging & Emerging-tech Lab team members.
+        </p>
       </div>
 
       <div>
@@ -31,10 +33,19 @@
           <thead>
             <tr>
               <th>Photo</th>
+
               <th>Name</th>
+
               <th>Designation</th>
+
+              <th>Period</th>
+
+              <th>Category</th>
+
               <th>Email</th>
+
               <th>Status</th>
+
               <th>Actions</th>
             </tr>
           </thead>
@@ -43,6 +54,8 @@
             {% for member in members %}
 
             <tr>
+              <!-- PHOTO -->
+
               <td>
                 {% if member.photo %}
 
@@ -60,18 +73,74 @@
                   "
                 />
 
-                {% else %} No Photo {% endif %}
+                {% else %}
+
+                <div
+                  style="
+                    width: 60px;
+                    height: 60px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background: #eee;
+                    font-weight: 700;
+                  "
+                >
+                  {{ member.name[0] }}
+                </div>
+
+                {% endif %}
               </td>
+
+              <!-- NAME -->
 
               <td>
                 <strong> {{ member.name }} </strong>
               </td>
 
+              <!-- DESIGNATION -->
+
               <td>{{ member.designation or "—" }}</td>
+
+              <!-- TEAM PERIOD -->
+
+              <td>
+                {% if member.team_period == "Present" %}
+
+                <span class="team-status present"> Present </span>
+
+                {% else %}
+
+                <span class="team-status past"> Past </span>
+
+                {% endif %}
+              </td>
+
+              <!-- CATEGORY -->
+
+              <td>{{ member.category or "Other" }}</td>
+
+              <!-- EMAIL -->
 
               <td>{{ member.email or "—" }}</td>
 
-              <td>{{ member.status }}</td>
+              <!-- STATUS -->
+
+              <td>
+                {% if member.status == 1 or member.status == "1" or
+                member.status == "Active" %}
+
+                <span class="team-status active"> Active </span>
+
+                {% else %}
+
+                <span class="team-status inactive"> Inactive </span>
+
+                {% endif %}
+              </td>
+
+              <!-- ACTIONS -->
 
               <td>
                 <a
@@ -119,5 +188,32 @@
     {% endif %}
   </div>
 </section>
+
+<style>
+  .team-status {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .team-status.present {
+    border: 1px solid currentColor;
+  }
+
+  .team-status.past {
+    border: 1px solid currentColor;
+  }
+
+  .team-status.active {
+    border: 1px solid currentColor;
+  }
+
+  .team-status.inactive {
+    border: 1px solid currentColor;
+  }
+</style>
 
 {% endblock %}

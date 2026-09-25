@@ -21,15 +21,22 @@ def team():
             id,
             name,
             designation,
+            team_period,
+            category,
             bio,
             skills,
             photo,
             linkedin,
             github,
-            email
+            email,
+            display_order
         FROM team
-        WHERE status = 'Active'
-        ORDER BY display_order ASC, id ASC
+        WHERE status = 1
+        ORDER BY
+            FIELD(team_period, 'Present', 'Past'),
+            category_order DESC,
+            display_order ASC,
+            id ASC
     """)
 
     members = cur.fetchall()

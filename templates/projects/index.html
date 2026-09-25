@@ -1,9 +1,11 @@
-{% extends "base.html" %} {% block title %} MeharLabs | Projects {% endblock %}
-{% block content %}
+{% extends "base.html" %} {% block title %} ISIE | Projects {% endblock %} {%
+block content %}
 
 <section class="page-header">
   <div class="container">
-    <p class="eyebrow">MEHARLABS PROJECTS</p>
+    <p class="eyebrow">
+      Intelligent Signal, Imaging & Emerging-tech Lab PROJECTS
+    </p>
 
     <h1>Projects & Prototypes</h1>
 
@@ -37,7 +39,7 @@
 
         {% endif %}
 
-        <h2>{{ project.title }}</h2>
+        <h3>{{ project.title }}</h3>
 
         {% if project.short_description %}
 
@@ -71,7 +73,10 @@
       <div class="tech-card">
         <h2>No Projects Found</h2>
 
-        <p>Projects will appear here when they are added to MeharLabs.</p>
+        <p>
+          Projects will appear here when they are added to Intelligent Signal,
+          Imaging & Emerging-tech Lab.
+        </p>
       </div>
 
       {% endfor %}
@@ -86,14 +91,14 @@
     margin-bottom: 20px;
     overflow: hidden;
     border-radius: 10px;
-}
+  }
 
-.project-image img {
+  .project-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
-}
+  }
 </style>
 
 {% endblock %}

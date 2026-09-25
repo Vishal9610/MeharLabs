@@ -1,4 +1,4 @@
-{% extends "base.html" %} {% block title %} {{ project.title }} | MeharLabs {%
+{% extends "base.html" %} {% block title %} {{ project.title }} | ISIE {%
 endblock %} {% block content %}
 
 <!--  
@@ -9,7 +9,7 @@ endblock %} {% block content %}
   <div class="container">
     <p class="eyebrow">{{ project.category }}</p>
 
-    <h1>{{ project.title }}</h1>
+    <h2>{{ project.title }}</h2>
 
     <p>{{ project.short_description }}</p>
   </div>
@@ -143,13 +143,15 @@ endblock %} {% block content %}
 
 <section class="cta">
   <div class="container">
-    <p class="eyebrow">MEHARLABS</p>
+    <p class="eyebrow">Intelligent Signal, Imaging & Emerging-tech Lab</p>
 
     <h2>Interested in this project?</h2>
 
     <p>Let's collaborate on research, technology and innovation.</p>
 
-    <a href="/contact" class="btn primary"> Contact MeharLabs </a>
+    <a href="{{ url_for('contact.contact') }}" class="btn primary">
+      Contact ISIE Lab
+    </a>
   </div>
 </section>
 
